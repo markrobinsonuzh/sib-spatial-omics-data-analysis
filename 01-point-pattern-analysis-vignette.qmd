@@ -1,0 +1,36 @@
+---
+title: "Point Pattern Analysis Vignette"
+author: "Martin Emons, Samuel Gunz, Mark D. Robinson"
+format: html
+editor: visual
+---
+
+## Introduction
+
+### Overview of technologies
+
+### Point Process
+
+## Point Pattern Analysis
+
+### `spatstat` package and `ppp` object
+
+### Windows
+
+### Marks
+
+#### Discrete Marks
+
+#### Continuous Marks
+
+### Correlation
+
+#### Global Measures
+
+#### Local Measures
+
+### Spacing
+
+### Border Corrections
+
+## Summary and Considerations
