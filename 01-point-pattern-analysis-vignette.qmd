@@ -15,11 +15,62 @@ editor: visual
 
 ### `spatstat` package and `ppp` object
 
+The central package to analyse point patterns in `R` is called `spatstat` [@baddeleySpatstatPackageAnalyzing2005]. The main data object to compute on is 
+called `ppp` object. `ppp` objects describe point patterns in two dimensional
+space, `ppx` objects create multidimensional point patterns. A `ppp` object is
+is made up of three specifications [@baddeleySpatstatPackageAnalyzing2005]:
+
+- The locations of the points in question (x,y and, optionally, z coordinates)
+- The observation window
+- The associated marks to each point in the pattern
+
+On this central object from `spatstat` metrics can be calculated. 
+
+```{r}
+#| label: load-data
+#source some helper functions
+source('utils.R')
+#load the SpatialExperiment object
+spe <- readRDS("data/spe.rds")
+spe
+```
+
+We see that we have an object of class `SpatialExperiment` with $161$ genes (rows)
+and $73655$ cells. This object is very similar to a `SingleCellExperiment` object
+except it has the added `spatialCoords` slot. One slot in the `colData` is called
+`sample_id` which defines the so called z-slices. The three dimensional tissue
+is cut in the z-axis into consecutive two dimensional slices. 
+
+Next, we want to extract three slices of this `SpatialExperiment` object and
+convert the 2D slices into `ppp` objects.
+
+```{r}
+#define the Z-stacks that you want to compare
+zstack_list <- list("-0.09", "0.01", "0.21")
+#small helper function to extract the z-slices and convert them to `ppp` objects
+selectZstacks <- function(zstack, spe){
+  sub <- spe[, spe$sample_id == zstack]
+  pp <- .ppp(sub, marks = "cluster_id")
+  return(pp)
+}
+pp_ls <- lapply(zstack_list, selectZstacks, spe)
+names(pp_ls) <- zstack_list
+
+pp_ls
+```
+
+We see that we obtain a list of three `ppp` objects for the three z-slices
+$-0.09, 0.01, 0.21$. 
+
 ### Windows
 
 ### Marks
 
 #### Discrete Marks
+
+##### Within Mark Comparison
+
+##### Cross Mark Comparison
 
 #### Continuous Marks
 
