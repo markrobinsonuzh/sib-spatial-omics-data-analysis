@@ -62,17 +62,79 @@ pp_ls
 We see that we obtain a list of three `ppp` objects for the three z-slices
 $-0.09, 0.01, 0.21$. 
 
+We can plot one of these slices, e.g. slice $-0.09$ with ggplot
+
+```{r}
+#create a dataframe from the point pattern
+pp_df <- pp_ls[[1]] %>% as.data.frame()
+#plot with ggplot
+ggplot(pp_df, aes(x,y,colour = marks)) +
+  geom_point() +
+  theme_light()
+```
+
 ### Windows
+
+As stated above, one important aspect of a point pattern is the observation window. In most microscopy use cases we encounter window sampling. Window sampling describes the case where we don't observe the entire point pattern in a window but just a sample [@baddeleySpatialPointPatterns2015, pp. 143-145].
+
+The window of a point pattern does not have to be quadratic, we can receive round biopsies or calculate convex hulls around our sample [@baddeleySpatialPointPatterns2015, pp. 143-145]. 
+
+Let's investigate the observation window a bit for the slice $-0.09$.
+
+```{r}
+#subset point pattern list
+pp_sub <- pp_ls[['-0.09']]
+#base R plot of all marks
+pp_sub |> plot()
+```
+
+Here, we have a quadratic window around all points. 
+
+Let's investigate what a round window would look like:
+
+```{r}
+pp_sub_round <- pp_sub
+#calculate circle with radius 850 µm and a center at the centroid of the window would look like
+w <- disc(r = 850, centroid.owin(Window(pp_sub)))
+Window(pp_sub_round) <- w
+pp_sub_round |> plot()
+```
+
+Correctly assigning windows is very important. The window should represent the space where points are expected. This means, in window sampling one should not restrict the window. This would lead to a false underestimation of the area where the points can be potentially observed. This problem of where we can observe points and where not (beyond the boundary of the window) leads to a range of problems collectivley called edge effects [@baddeleySpatialPointPatterns2015, pp. 143-145]. We will discuss them later.
 
 ### Marks
 
+The next point that defines a point pattern is the marks associated with the points. The points can have as well no marks which we call an unmarked point pattern
+
+```{r}
+unmark(pp_sub) |> plot()
+```
+
+Marks can be univariate or multivariate variables that are associated with the points [@baddeleySpatialPointPatterns2015, pp. 147, pp. 563]. In the context of cell biology we can distinguish between discrete marks (e.g. cell types) or continuous marks (e.g. gene expression).
+
 #### Discrete Marks
 
-##### Within Mark Comparison
+In our example we have a multitype point pattern, meaning there are different cell types that serve as marks for the point pattern. Multitype means that we consider all marks together. The opposite is multivariate, where we consider the marks independently [@baddeleySpatialPointPatterns2015, pp. 565 ff.]. 
 
-##### Cross Mark Comparison
+First the multitype case:
+
+```{r}
+pp_sub |> plot()
+```
+
+Then splitting the point pattern and plotting a multivariate view on the same pattern.
+
+```{r, fig.height=7, fig.width=7}
+pp_sub |> split() |> plot()
+```
 
 #### Continuous Marks
+
+Marks can as well be continuous as in the case of gene expression
+
+#### Within Mark Comparison
+
+#### Cross Mark Comparison
 
 ### Correlation
 
