@@ -130,7 +130,32 @@ pp_sub |> split() |> plot()
 
 #### Continuous Marks
 
-Marks can as well be continuous as in the case of gene expression
+Marks can as well be continuous as in the case of gene expression. We choose some genes from the original paper and look at their distribution [@baddeleySpatialPointPatterns2015 pp. 637] [@moffittMolecularSpatialFunctional2018]. 
+
+```{r}
+#subset the original SpatialExperiment to our example slide -0.09
+sub <- spe[, spe$sample_id == '-0.09']
+#  Genes from Fig. 6 of Moffitt et al. (2018)
+genes <- c('Slc18a2', 'Esr1', 'Pgr')
+gex <- assay(sub)[genes,] %>% t %>% as.matrix %>% 
+  data.frame %>% set_rownames(NULL)
+# gene expression to marks [ME: is it really expression?]
+marks(pp_sub) <- gex
+```
+
+Now that we points with multivariate continuous marks
+
+```{r, fig.height=7, fig.width=10}
+pp_df <- pp_sub %>% as.data.frame() %>% pivot_longer(cols = 3:5)
+
+ggplot(pp_df, aes(x,y,colour = value))+
+  geom_point() + 
+  facet_wrap(~name) +
+  theme_light()+ 
+  scale_color_continuous(type = "viridis")
+```
+
+We note that the distribution of expression of these two genes is very evenly distributed with some elevations in the middle of the structure.
 
 #### Within Mark Comparison
 
