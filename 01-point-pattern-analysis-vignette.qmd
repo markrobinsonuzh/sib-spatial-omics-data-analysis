@@ -213,6 +213,8 @@ ggplot(pp_df, aes(x,y, colour = Esr1)) +
   scale_color_continuous(type = "viridis", trans = 'log')
 ```
 
+We note that the gene `Esr1` is differently distributed across the slices of the 3D sample. 
+
 #### Cross Mark Comparison
 
 ### Correlation
