@@ -146,18 +146,72 @@ marks(pp_sub) <- gex
 Now that we points with multivariate continuous marks
 
 ```{r, fig.height=7, fig.width=10}
+#create a dataframe in long format for plotting
 pp_df <- pp_sub %>% as.data.frame() %>% pivot_longer(cols = 3:5)
+
+#add a 1 to all values, since log(0) is not defined - standard sc approach
+pp_df$value <- pp_df$value + 1
 
 ggplot(pp_df, aes(x,y,colour = value))+
   geom_point() + 
   facet_wrap(~name) +
-  theme_light()+ 
-  scale_color_continuous(type = "viridis")
+  theme_light() + 
+  coord_equal() +
+  scale_color_continuous(type = "viridis", trans = 'log')
 ```
 
-We note that the distribution of expression of these two genes is very evenly distributed with some elevations in the middle of the structure.
+We note that the distribution of expression of the genes `Pgr` and `Slc18a2` is very evenly distributed with some elevations in the middle of the structure. `Esr1` shows a half-circle like structure in expression. Note that the expression is here logged counts plus one (to avoid problems with log of zero). 
 
 #### Within Mark Comparison
+
+We can compare patterns between marks of the same type. This is referred to as a within mark comparison in our vignette. We can compare discrete marks, so the distribution of one single mark, e.g. a cell type. 
+
+```{r, fig.height=7, fig.width=10}
+#create a dataframe from the point pattern
+pp_df <- lapply(zstack_list, function(x){
+   df <- pp_ls[[x]] %>% as.data.frame()
+   df$stack <- x
+   return(df)
+})%>% bind_rows()
+
+#select OD Mature cells
+pp_df_odmature <- pp_df[pp_df$marks == 'OD Mature',]
+
+ggplot(pp_df_odmature, aes(x,y, colour = marks)) + 
+  geom_point() +
+  theme_light() +
+  facet_wrap(~stack,scales="free")+
+  theme(aspect.ratio = 1)
+```
+
+Here, we plot the distribution of mature oligodendrocytes across three slices of one 3D brain sample. 
+
+Continuous marks can be compared as well, e.g. the expression of a gene across slices of a tissue
+
+```{r, fig.height=7, fig.width=10}
+pp_df <- lapply(zstack_list, function(x){
+    #subset the original SpatialExperiment to our example slide -0.09
+    sub <- spe[, spe$sample_id == x]
+    #  Genes from Fig. 6 of Moffitt et al. (2018)
+    genes <- c('Slc18a2', 'Esr1', 'Pgr')
+    gex <- assay(sub)[genes,] %>% t %>% as.matrix %>% 
+  data.frame %>% set_rownames(NULL) 
+    # gene expression to marks [ME: is it really expression?]
+    marks(pp_ls[[x]]) <- gex
+    df <- pp_ls[[x]] %>% as.data.frame()
+    df$stack <- x
+    return(df)
+})%>% bind_rows()
+
+pp_df$Esr1 <- pp_df$Esr1 + 1
+
+ggplot(pp_df, aes(x,y, colour = Esr1)) + 
+  geom_point() +
+  theme_light() +
+  facet_wrap(~stack,scales="free") +
+  theme(aspect.ratio = 1) +
+  scale_color_continuous(type = "viridis", trans = 'log')
+```
 
 #### Cross Mark Comparison
 
