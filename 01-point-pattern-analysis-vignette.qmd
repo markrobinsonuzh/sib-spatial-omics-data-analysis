@@ -70,7 +70,8 @@ pp_df <- pp_ls[[1]] %>% as.data.frame()
 #plot with ggplot
 ggplot(pp_df, aes(x,y,colour = marks)) +
   geom_point() +
-  theme_light()
+  theme_light() +
+  coord_equal()
 ```
 
 ### Windows
@@ -124,7 +125,7 @@ pp_sub |> plot()
 
 Then splitting the point pattern and plotting a multivariate view on the same pattern.
 
-```{r, fig.height=5, fig.width=10}
+```{r, fig.height=7, fig.width=10}
 pp_sub |> split() |> plot()
 ```
 
@@ -236,7 +237,7 @@ In the formula above we note a few things:
 Ripley's $K$ function can be variance stabilised, which is referred to as Besag's $L$ [@caneteSpicyRSpatialAnalysis2022].
 
 $$
-L(r) = \sqrt{\frac{\hat{K}(r)}{\pi}}.
+L(r) = \sqrt{\frac{K(r)}{\pi}}.
 $$
 
 ```{r, message = FALSE, fig.height=5, fig.width=10}
@@ -269,6 +270,32 @@ p|q
 ```
 
 ##### Local Measures
+
+Next to observation window metrics, we can calculate point level statistics as well. One such option is the local indicators of spatial association (LISA). This gives one curve per field of view [@baddeleySpatialPointPatterns2015 pp. 247-248].
+
+```{r}
+L_odmature_lisa <- localL(pp_ls[['0.01']]$`OD Mature`)
+
+df <- as.data.frame(L_odmature_lisa)
+dfm <- reshape2::melt(df, "r")
+
+get_sel <- dfm %>% filter(r > 200.5630 & r < 201.4388, variable != "theo") %>%
+  mutate(sel = value) %>% select(variable, sel)
+
+dfm <- dfm %>% left_join(get_sel)
+
+p <- ggplot(dfm, aes(x=r, y=value, group=variable, colour=sel)) +
+  geom_line() + 
+  scale_color_continuous(type = "viridis") +
+  geom_vline(xintercept = 200) +
+  theme(legend.position = "none") +
+  theme_light() +
+  ggtitle("LISA curves of slice 0.01")
+
+p
+```
+
+These curves could be analysed using tools from functional data analysis such as functional PCA [@baddeleySpatialPointPatterns2015 pp. 247-248][@ramsayPrincipalComponentsAnalysis2005].
 
 #### Spacing
 
