@@ -7,11 +7,7 @@ editor: visual
 
 ## Introduction
 
-### Overview of technologies
-
-### Point Process
-
-## Point Pattern Analysis
+Cells or transcripts can be approximated as points given their location. 
 
 ### `spatstat` package and `ppp` object
 
@@ -203,7 +199,7 @@ pp_df <- lapply(zstack_list, function(x){
     df$stack <- x
     return(df)
 })%>% bind_rows()
-
+#add a one to not get log(zero) - standard approach in scRNA seq analysis
 pp_df$Esr1 <- pp_df$Esr1 + 1
 
 ggplot(pp_df, aes(x,y, colour = Esr1)) + 
@@ -240,41 +236,64 @@ $$
 L(r) = \sqrt{\frac{K(r)}{\pi}}.
 $$
 
-```{r, message = FALSE, fig.height=5, fig.width=10}
-calcMetric <- function(fun, pp_ls, celltype){
+```{r, message = FALSE, warning=FALSE, fig.height=5, fig.width=10, results='hide'}
+calcMetric <- function(fun, pp_ls, celltype, continuous = FALSE){
   res_df <- lapply(zstack_list, function(x){
-    res <- lohboot(pp_ls[[x]][[celltype]], fun = fun)
+    if(continuous){
+      pp_sub <- subset(pp_ls, select = celltype)
+    }
+    else{
+       pp_sub <- subset(pp_ls[[x]], marks %in% celltype, drop = TRUE)
+    }
+
+    res <- do.call(fun, args = list(X = pp_sub))
     res$stack <- x
     return(res)
   }) %>% bind_rows()
   return(res_df)
 }
 
-separateMarks <- function(pp){
-  #split the multitype point process into several single type processes
-  ppls <- split(pp)
-  return (ppls)
-}
-#the point patterns separated by their marks
-pp_ls <- lapply(pp_ls, separateMarks)
-
 res1 <- calcMetric('Kest', pp_ls, 'OD Mature')
 
-p <- ggplot(res1, aes(r, iso, colour = stack)) + geom_line() + theme_light() + geom_ribbon(aes(ymin = lo, ymax = hi), alpha = 0.25, show.legend = FALSE)
+p <- ggplot(res1, aes(r, iso, colour = stack)) + geom_line() + theme_light() + geom_line(aes(x=r,y=theo),linetype = "dashed", color = 'black')
 
 res2 <- calcMetric('Lest', pp_ls,  'OD Mature')
 
-q <- ggplot(res2, aes(r, iso, colour = stack)) + geom_line() + theme_light() + geom_ribbon(aes(ymin = lo, ymax = hi), alpha = 0.25, show.legend = FALSE)
+q <- ggplot(res2, aes(r, iso, colour = stack)) + geom_line() + theme_light() + geom_line(aes(x=r,y=theo),linetype = "dashed", color = 'black')
+```
 
+```{r, fig.height=5, fig.width=10}
 p|q
+```
+
+A similar analysis can be performed for continuous marks. As an exercise, try to calculated a mark weighted correlation function `markcorr`. You get more information on this function by typing `?markcorr`
+
+```{r}
+genes <- c('Slc18a2', 'Esr1', 'Pgr')
+#add the genes as marks to the point pattern
+pp <- lapply(zstack_list, function(x){
+    pp <- pp_ls[[x]]
+    #subset the original SpatialExperiment to our example slide -0.09
+    sub <- spe[, spe$sample_id == x]
+    #  Genes from Fig. 6 of Moffitt et al. (2018)
+    genes <- c('Slc18a2', 'Esr1', 'Pgr')
+    gex <- assay(sub)[genes,] %>% t %>% as.matrix %>% 
+  data.frame %>% set_rownames(NULL) 
+    # gene expression to marks [ME: is it really expression?]
+    marks(pp) <- gex
+    return(pp)
+})
+
+res <- calcMetric('markcorr', pp[[1]], genes, continuous = TRUE)
 ```
 
 ##### Local Measures
 
 Next to observation window metrics, we can calculate point level statistics as well. One such option is the local indicators of spatial association (LISA). This gives one curve per field of view [@baddeleySpatialPointPatterns2015 pp. 247-248].
 
-```{r}
-L_odmature_lisa <- localL(pp_ls[['0.01']]$`OD Mature`)
+```{r, message = FALSE, warning=FALSE, fig.height=5, fig.width=10, results='hide'}
+pp <- subset(pp_ls[['0.01']], marks %in% 'OD Mature')
+L_odmature_lisa <- localL(pp)
 
 df <- as.data.frame(L_odmature_lisa)
 dfm <- reshape2::melt(df, "r")
@@ -291,24 +310,31 @@ p <- ggplot(dfm, aes(x=r, y=value, group=variable, colour=sel)) +
   theme(legend.position = "none") +
   theme_light() +
   ggtitle("LISA curves of slice 0.01")
+```
 
+```{r, fig.height=5, fig.width=10}
 p
 ```
 
 These curves could be analysed using tools from functional data analysis such as functional PCA [@baddeleySpatialPointPatterns2015 pp. 247-248][@ramsayPrincipalComponentsAnalysis2005].
 
-#### Spacing
-
 ### Cross Mark Comparison
 
-#### Correlation
+The same analysis as above can be performed between two celltypes. The corresponding functions are called cross functions. As an exercise, try to implement (similar to the analysis above) a cross comparison between two cell types of interest. With the provided functions this is possible, just give a function you like as input and a vector with two cell types you wish to compare. You can look at functions in the documentation of `spatstat.explore`
 
-##### Global Measures
+```{r, message = FALSE, warning=FALSE, fig.height=5, fig.width=10, results='hide'}
+#to be deleted from the handed out version
+res <- calcMetric('Lcross', pp_ls, c('OD Mature', 'Microglia'))
 
-##### Local Measures
+q <- ggplot(res, aes(r, iso, colour = stack)) + geom_line() + theme_light() + geom_ribbon(aes(ymin = lo, ymax = hi), alpha = 0.25, show.legend = FALSE) + geom_line(aes(x=r,y=theo),linetype = "dashed", color = 'black')
+```
 
-#### Spacing
-
-### Border Corrections
+```{r, fig.height=5, fig.width=10}
+q
+```
 
 ## Summary and Considerations
+
+```{r}
+sessionInfo()
+```
