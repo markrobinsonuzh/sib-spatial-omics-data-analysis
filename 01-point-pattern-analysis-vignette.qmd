@@ -326,7 +326,7 @@ The same analysis as above can be performed between two celltypes. The correspon
 #to be deleted from the handed out version
 res <- calcMetric('Lcross', pp_ls, c('OD Mature', 'Microglia'))
 
-q <- ggplot(res, aes(r, iso, colour = stack)) + geom_line() + theme_light() + geom_ribbon(aes(ymin = lo, ymax = hi), alpha = 0.25, show.legend = FALSE) + geom_line(aes(x=r,y=theo),linetype = "dashed", color = 'black')
+q <- ggplot(res, aes(r, iso, colour = stack)) + geom_line() + theme_light() + geom_line(aes(x=r,y=theo),linetype = "dashed", color = 'black')
 ```
 
 ```{r, fig.height=5, fig.width=10}
