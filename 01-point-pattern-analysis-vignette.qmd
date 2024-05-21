@@ -237,10 +237,10 @@ L(r) = \sqrt{\frac{K(r)}{\pi}}.
 $$
 
 ```{r, message = FALSE, warning=FALSE, fig.height=5, fig.width=10, results='hide'}
-calcMetric <- function(fun, pp_ls, celltype, continuous = FALSE){
-  res_df <- lapply(zstack_list, function(x){
+calcMetric <- function(fun, pp_ls, by, celltype, continuous = FALSE){
+  res_df <- lapply(by, function(x){
     if(continuous){
-      pp_sub <- subset(pp_ls, select = celltype)
+      pp_sub <- subset(pp_ls[[x]], select = celltype)
     }
     else{
        pp_sub <- subset(pp_ls[[x]], marks %in% celltype, drop = TRUE)
@@ -253,11 +253,11 @@ calcMetric <- function(fun, pp_ls, celltype, continuous = FALSE){
   return(res_df)
 }
 
-res1 <- calcMetric('Kest', pp_ls, 'OD Mature')
+res1 <- calcMetric('Kest', pp_ls, zstack_list, 'OD Mature')
 
 p <- ggplot(res1, aes(r, iso, colour = stack)) + geom_line() + theme_light() + geom_line(aes(x=r,y=theo),linetype = "dashed", color = 'black')
 
-res2 <- calcMetric('Lest', pp_ls,  'OD Mature')
+res2 <- calcMetric('Lest', pp_ls, zstack_list, 'OD Mature')
 
 q <- ggplot(res2, aes(r, iso, colour = stack)) + geom_line() + theme_light() + geom_line(aes(x=r,y=theo),linetype = "dashed", color = 'black')
 ```
@@ -273,7 +273,7 @@ genes <- c('Slc18a2', 'Esr1', 'Pgr')
 #add the genes as marks to the point pattern
 pp <- lapply(zstack_list, function(x){
     pp <- pp_ls[[x]]
-    #subset the original SpatialExperiment to our example slide -0.09
+    #subset the original SpatialExperiment
     sub <- spe[, spe$sample_id == x]
     #  Genes from Fig. 6 of Moffitt et al. (2018)
     genes <- c('Slc18a2', 'Esr1', 'Pgr')
@@ -283,8 +283,12 @@ pp <- lapply(zstack_list, function(x){
     marks(pp) <- gex
     return(pp)
 })
+names(pp) <- zstack_list
+#calculate the metric for example slide '-0.09'
+res <- calcMetric('markcorr', pp, zstack_list, 'Esr1', continuous = TRUE)
+p <- ggplot(res, aes(r, iso, colour = stack)) + geom_line() + theme_light() + geom_line(aes(x=r,y=theo),linetype = "dashed", color = 'black')
 
-res <- calcMetric('markcorr', pp[[1]], genes, continuous = TRUE)
+p
 ```
 
 ##### Local Measures
@@ -324,7 +328,7 @@ The same analysis as above can be performed between two celltypes. The correspon
 
 ```{r, message = FALSE, warning=FALSE, fig.height=5, fig.width=10, results='hide'}
 #to be deleted from the handed out version
-res <- calcMetric('Lcross', pp_ls, c('OD Mature', 'Microglia'))
+res <- calcMetric('Lcross', pp_ls, by = zstack_list, celltype = c('OD Mature', 'Microglia'), continuous = FALSE)
 
 q <- ggplot(res, aes(r, iso, colour = stack)) + geom_line() + theme_light() + geom_line(aes(x=r,y=theo),linetype = "dashed", color = 'black')
 ```
