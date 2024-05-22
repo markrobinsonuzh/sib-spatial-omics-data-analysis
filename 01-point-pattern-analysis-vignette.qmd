@@ -12,7 +12,7 @@ Cells or transcripts can be approximated as points given their location.
 ### `spatstat` package and `ppp` object
 
 The central package to analyse point patterns in `R` is called `spatstat` [@baddeleySpatstatPackageAnalyzing2005]. The main data object to compute on is 
-called `ppp` object. `ppp` objects describe point patterns in two dimensional
+called a `ppp` object. `ppp` objects describe point patterns in two dimensional
 space, `ppx` objects create multidimensional point patterns. A `ppp` object is
 is made up of three specifications [@baddeleySpatstatPackageAnalyzing2005]:
 
@@ -65,14 +65,14 @@ We can plot one of these slices, e.g. slice $-0.09$ with ggplot
 pp_df <- pp_ls[[1]] %>% as.data.frame()
 #plot with ggplot
 ggplot(pp_df, aes(x,y,colour = marks)) +
-  geom_point() +
+  geom_point(size = 0.5) +
   theme_light() +
   coord_equal()
 ```
 
 ### Windows
 
-As stated above, one important aspect of a point pattern is the observation window. In most microscopy use cases we encounter window sampling. Window sampling describes the case where we don't observe the entire point pattern in a window but just a sample [@baddeleySpatialPointPatterns2015, pp. 143-145].
+As stated above, one important aspect of a point pattern is the observation window. It represents the region in which a pattern is observed or e.g. a survey was conducted [@baddeleySpatialPointPatterns2015, pp. 85]. In most microscopy use cases we encounter window sampling. Window sampling describes the case where we don't observe the entire point pattern in a window but just a sample [@baddeleySpatialPointPatterns2015, pp. 143-145].
 
 The window of a point pattern does not have to be quadratic, we can receive round biopsies or calculate convex hulls around our sample [@baddeleySpatialPointPatterns2015, pp. 143-145]. 
 
@@ -146,18 +146,15 @@ Now that we points with multivariate continuous marks
 #create a dataframe in long format for plotting
 pp_df <- pp_sub %>% as.data.frame() %>% pivot_longer(cols = 3:5)
 
-#add a 1 to all values, since log(0) is not defined - standard sc approach
-pp_df$value <- pp_df$value + 1
-
-ggplot(pp_df, aes(x,y,colour = value))+
-  geom_point() + 
+ggplot(pp_df, aes(x,y,colour = log(value+1)))+
+  geom_point(size = 0.5) +
   facet_wrap(~name) +
   theme_light() + 
   coord_equal() +
-  scale_color_continuous(type = "viridis", trans = 'log')
+  scale_color_continuous(type = "viridis")
 ```
 
-We note that the distribution of expression of the genes `Pgr` and `Slc18a2` is very evenly distributed with some elevations in the middle of the structure. `Esr1` shows a half-circle like structure in expression. Note that the expression is here logged counts plus one (to avoid problems with log of zero). 
+We note that the distribution of expression of the genes `Pgr` and `Slc18a2` is very evenly distributed with some elevations in the middle of the structure. `Esr1` shows a half-circle like structure in expression. Note that the expression is here  log transformed counts plus one (to avoid problems with log of zero). 
 
 #### Within Mark Comparison
 
@@ -175,7 +172,7 @@ pp_df <- lapply(zstack_list, function(x){
 pp_df_odmature <- pp_df[pp_df$marks == 'OD Mature',]
 
 ggplot(pp_df_odmature, aes(x,y, colour = marks)) + 
-  geom_point() +
+  geom_point(size = 0.5) +
   theme_light() +
   facet_wrap(~stack,scales="free")+
   theme(aspect.ratio = 1)
@@ -202,15 +199,15 @@ pp_df <- lapply(zstack_list, function(x){
 #add a one to not get log(zero) - standard approach in scRNA seq analysis
 pp_df$Esr1 <- pp_df$Esr1 + 1
 
-ggplot(pp_df, aes(x,y, colour = Esr1)) + 
-  geom_point() +
+ggplot(pp_df, aes(x,y, colour = log(Esr1 + 1))) + 
+  geom_point(size = 0.5) +
   theme_light() +
   facet_wrap(~stack,scales="free") +
   theme(aspect.ratio = 1) +
-  scale_color_continuous(type = "viridis", trans = 'log')
+  scale_color_continuous(type = "viridis")
 ```
 
-We note that the gene `Esr1` is differently distributed across the slices of the 3D sample. 
+We note that the gene `Esr1` is differentially distributed across the slices of the 3D sample. 
 
 #### Correlation
 
@@ -230,10 +227,10 @@ In the formula above we note a few things:
 
 - the term $e_{ij}(r)$ is an edge correction - see the section on `border corrections` further down in the vignette.
 
-Ripley's $K$ function can be variance stabilised, which is referred to as Besag's $L$ [@caneteSpicyRSpatialAnalysis2022].
+Ripley's $K$ function can be variance stabilised, which is referred to as Besag's $L$ [@caneteSpicyRSpatialAnalysis2022]. The idea behind variance stabilisation is to "uncouple" the relationship between mean and variance. By taking the square root of the function in question, the variance is nearly constant across the function [@bartlettUseTransformations1947].
 
 $$
-L(r) = \sqrt{\frac{K(r)}{\pi}}.
+L(r) = \sqrt{\frac{K(r)}{\pi}}
 $$
 
 ```{r, message = FALSE, warning=FALSE, fig.height=5, fig.width=10, results='hide'}
