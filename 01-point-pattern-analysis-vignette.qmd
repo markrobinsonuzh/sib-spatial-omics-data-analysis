@@ -16,7 +16,7 @@ called a `ppp` object. `ppp` objects describe point patterns in two dimensional
 space, `ppx` objects create multidimensional point patterns. A `ppp` object is
 is made up of three specifications [@baddeleySpatstatPackageAnalyzing2005]:
 
-- The locations of the points in question (x,y and, optionally, z coordinates)
+- The locations of the points in question ($x$,$y$ and, optionally, $z$ coordinates)
 - The observation window
 - The associated marks to each point in the pattern
 
@@ -31,9 +31,9 @@ in the `BioConductor` framework to store spatial transcriptomics data.
 
 ```{r}
 #| label: load-data
-#source some helper functions
-source('utils.R')
-#load the SpatialExperiment object
+# source some helper functions
+source("utils.R")
+# load the SpatialExperiment object
 spe <- readRDS("data/spe.rds")
 spe
 ```
@@ -48,10 +48,10 @@ Next, we want to extract three slices of this `SpatialExperiment` object and
 convert the 2D slices into `ppp` objects.
 
 ```{r}
-#define the Z-stacks that you want to compare
+# define the Z-stacks that you want to compare
 zstack_list <- list("-0.09", "0.01", "0.21")
-#small helper function to extract the z-slices and convert them to `ppp` objects
-selectZstacks <- function(zstack, spe){
+# small helper function to extract the z-slices and convert them to `ppp` objects
+selectZstacks <- function(zstack, spe) {
   sub <- spe[, spe$sample_id == zstack]
   pp <- .ppp(sub, marks = "cluster_id")
   return(pp)
@@ -68,10 +68,10 @@ $-0.09, 0.01, 0.21$.
 We can plot one of these slices, e.g. slice $-0.09$ with ggplot
 
 ```{r}
-#create a dataframe from the point pattern
+# create a dataframe from the point pattern
 pp_df <- pp_ls[[1]] %>% as.data.frame()
-#plot with ggplot
-ggplot(pp_df, aes(x,y,colour = marks)) +
+# plot with ggplot
+ggplot(pp_df, aes(x, y, colour = marks)) +
   geom_point(size = 0.5) +
   theme_light() +
   coord_equal()
@@ -86,9 +86,9 @@ The window of a point pattern does not have to be quadratic, we can receive roun
 Let's investigate the observation window a bit for the slice $-0.09$.
 
 ```{r}
-#subset point pattern list
-pp_sub <- pp_ls[['-0.09']]
-#base R plot of all marks
+# subset point pattern list
+pp_sub <- pp_ls[["-0.09"]]
+# base R plot of all marks
 pp_sub |> plot()
 ```
 
@@ -98,7 +98,7 @@ Let's investigate what a round window would look like:
 
 ```{r}
 pp_sub_round <- pp_sub
-#calculate circle with radius 850 µm and a center at the centroid of the window would look like
+# calculate circle with radius 850 µm and a center at the centroid of the window would look like
 w <- disc(r = 850, centroid.owin(Window(pp_sub)))
 Window(pp_sub_round) <- w
 pp_sub_round |> plot()
@@ -129,7 +129,9 @@ pp_sub |> plot()
 Then splitting the point pattern and plotting a multivariate view on the same pattern.
 
 ```{r, fig.height=7, fig.width=10}
-pp_sub |> split() |> plot()
+pp_sub |>
+  split() |>
+  plot()
 ```
 
 #### Continuous Marks
@@ -137,12 +139,15 @@ pp_sub |> split() |> plot()
 Marks can as well be continuous as in the case of gene expression. We choose some genes from the original paper and look at their distribution [@baddeleySpatialPointPatterns2015 pp. 637] [@moffittMolecularSpatialFunctional2018]. 
 
 ```{r}
-#subset the original SpatialExperiment to our example slide -0.09
-sub <- spe[, spe$sample_id == '-0.09']
+# subset the original SpatialExperiment to our example slide -0.09
+sub <- spe[, spe$sample_id == "-0.09"]
 #  Genes from Fig. 6 of Moffitt et al. (2018)
-genes <- c('Slc18a2', 'Esr1', 'Pgr')
-gex <- assay(sub)[genes,] %>% t %>% as.matrix %>% 
-  data.frame %>% set_rownames(NULL)
+genes <- c("Slc18a2", "Esr1", "Pgr")
+gex <- assay(sub)[genes, ] %>%
+  t() %>%
+  as.matrix() %>%
+  data.frame() %>%
+  set_rownames(NULL)
 # gene expression to marks [ME: is it really expression?]
 marks(pp_sub) <- gex
 ```
@@ -150,13 +155,15 @@ marks(pp_sub) <- gex
 Now that we points with multivariate continuous marks
 
 ```{r, fig.height=5, fig.width=10}
-#create a dataframe in long format for plotting
-pp_df <- pp_sub %>% as.data.frame() %>% pivot_longer(cols = 3:5)
+# create a dataframe in long format for plotting
+pp_df <- pp_sub %>%
+  as.data.frame() %>%
+  pivot_longer(cols = 3:5)
 
-ggplot(pp_df, aes(x,y,colour = log(value+1)))+
+ggplot(pp_df, aes(x, y, colour = log(value + 1))) +
   geom_point(size = 0.5) +
   facet_wrap(~name) +
-  theme_light() + 
+  theme_light() +
   coord_equal() +
   scale_color_continuous(type = "viridis")
 ```
@@ -168,20 +175,20 @@ We note that the distribution of expression of the genes `Pgr` and `Slc18a2` is 
 We can compare patterns between marks of the same type. This is referred to as a within mark comparison in our vignette. We can compare discrete marks, so the distribution of one single mark, e.g. a cell type. 
 
 ```{r, fig.height=5, fig.width=10}
-#create a dataframe from the point pattern
-pp_df <- lapply(zstack_list, function(x){
-   df <- pp_ls[[x]] %>% as.data.frame()
-   df$stack <- x
-   return(df)
-})%>% bind_rows()
+# create a dataframe from the point pattern
+pp_df <- lapply(zstack_list, function(x) {
+  df <- pp_ls[[x]] %>% as.data.frame()
+  df$stack <- x
+  return(df)
+}) %>% bind_rows()
 
-#select OD Mature cells
-pp_df_odmature <- pp_df[pp_df$marks == 'OD Mature',]
+# select OD Mature cells
+pp_df_odmature <- pp_df[pp_df$marks == "OD Mature", ]
 
-ggplot(pp_df_odmature, aes(x,y, colour = marks)) + 
+ggplot(pp_df_odmature, aes(x, y, colour = marks)) +
   geom_point(size = 0.5) +
   theme_light() +
-  facet_wrap(~stack,scales="free")+
+  facet_wrap(~stack, scales = "free") +
   theme(aspect.ratio = 1)
 ```
 
@@ -190,24 +197,27 @@ Here, we plot the distribution of mature oligodendrocytes across three slices of
 Continuous marks can be compared as well, e.g. the expression of a gene across slices of a tissue
 
 ```{r, fig.height=5, fig.width=10}
-pp_df <- lapply(zstack_list, function(x){
-    #subset the original SpatialExperiment to our example slide -0.09
-    sub <- spe[, spe$sample_id == x]
-    #  Genes from Fig. 6 of Moffitt et al. (2018)
-    genes <- c('Slc18a2', 'Esr1', 'Pgr')
-    gex <- assay(sub)[genes,] %>% t %>% as.matrix %>% 
-  data.frame %>% set_rownames(NULL) 
-    # gene expression to marks [ME: is it really expression?]
-    marks(pp_ls[[x]]) <- gex
-    df <- pp_ls[[x]] %>% as.data.frame()
-    df$stack <- x
-    return(df)
-})%>% bind_rows()
+pp_df <- lapply(zstack_list, function(x) {
+  # subset the original SpatialExperiment to our example slide -0.09
+  sub <- spe[, spe$sample_id == x]
+  #  Genes from Fig. 6 of Moffitt et al. (2018)
+  genes <- c("Slc18a2", "Esr1", "Pgr")
+  gex <- assay(sub)[genes, ] %>%
+    t() %>%
+    as.matrix() %>%
+    data.frame() %>%
+    set_rownames(NULL)
+  # gene expression to marks [ME: is it really expression?]
+  marks(pp_ls[[x]]) <- gex
+  df <- pp_ls[[x]] %>% as.data.frame()
+  df$stack <- x
+  return(df)
+}) %>% bind_rows()
 
-ggplot(pp_df, aes(x,y, colour = log(Esr1 + 1))) + 
+ggplot(pp_df, aes(x, y, colour = log(Esr1 + 1))) +
   geom_point(size = 0.5) +
   theme_light() +
-  facet_wrap(~stack,scales="free") +
+  facet_wrap(~stack, scales = "free") +
   theme(aspect.ratio = 1) +
   scale_color_continuous(type = "viridis")
 ```
@@ -239,13 +249,12 @@ L(r) = \sqrt{\frac{K(r)}{\pi}}
 $$
 
 ```{r, message = FALSE, warning=FALSE, fig.height=5, fig.width=10, results='hide'}
-calcMetric <- function(fun, pp_ls, by, celltype, continuous = FALSE){
-  res_df <- lapply(by, function(x){
-    if(continuous){
+calcMetric <- function(fun, pp_ls, by, celltype, continuous = FALSE) {
+  res_df <- lapply(by, function(x) {
+    if (continuous) {
       pp_sub <- subset(pp_ls[[x]], select = celltype)
-    }
-    else{
-       pp_sub <- subset(pp_ls[[x]], marks %in% celltype, drop = TRUE)
+    } else {
+      pp_sub <- subset(pp_ls[[x]], marks %in% celltype, drop = TRUE)
     }
 
     res <- do.call(fun, args = list(X = pp_sub))
@@ -255,17 +264,23 @@ calcMetric <- function(fun, pp_ls, by, celltype, continuous = FALSE){
   return(res_df)
 }
 
-res1 <- calcMetric('Kest', pp_ls, zstack_list, 'OD Mature')
+res1 <- calcMetric("Kest", pp_ls, zstack_list, "OD Mature")
 
-p <- ggplot(res1, aes(r, iso, colour = stack)) + geom_line() + theme_light() + geom_line(aes(x=r,y=theo),linetype = "dashed", color = 'black')
+p <- ggplot(res1, aes(r, iso, colour = stack)) +
+  geom_line() +
+  theme_light() +
+  geom_line(aes(x = r, y = theo), linetype = "dashed", color = "black")
 
-res2 <- calcMetric('Lest', pp_ls, zstack_list, 'OD Mature')
+res2 <- calcMetric("Lest", pp_ls, zstack_list, "OD Mature")
 
-q <- ggplot(res2, aes(r, iso, colour = stack)) + geom_line() + theme_light() + geom_line(aes(x=r,y=theo),linetype = "dashed", color = 'black')
+q <- ggplot(res2, aes(r, iso, colour = stack)) +
+  geom_line() +
+  theme_light() +
+  geom_line(aes(x = r, y = theo), linetype = "dashed", color = "black")
 ```
 
 ```{r, fig.height=5, fig.width=10}
-p|q
+p | q
 ```
 
 Your turn: Try to compare the arrangement of `Ependymal` cells across these three sections. You can choose any function you might find in the documentation of `spatstat.explore`.
@@ -273,46 +288,54 @@ Your turn: Try to compare the arrangement of `Ependymal` cells across these thre
 A similar analysis can be performed for continuous marks. As an exercise, try to calculated a mark weighted correlation function `markcorr`. You get more information on this function by typing `?markcorr`
 
 ```{r}
-genes <- c('Slc18a2', 'Esr1', 'Pgr')
-#add the genes as marks to the point pattern
-pp <- lapply(zstack_list, function(x){
-    pp <- pp_ls[[x]]
-    #subset the original SpatialExperiment
-    sub <- spe[, spe$sample_id == x]
-    #  Genes from Fig. 6 of Moffitt et al. (2018)
-    genes <- c('Slc18a2', 'Esr1', 'Pgr')
-    gex <- assay(sub)[genes,] %>% t %>% as.matrix %>% 
-  data.frame %>% set_rownames(NULL) 
-    # gene expression to marks [ME: is it really expression?]
-    marks(pp) <- gex
-    return(pp)
+genes <- c("Slc18a2", "Esr1", "Pgr")
+# add the genes as marks to the point pattern
+pp <- lapply(zstack_list, function(x) {
+  pp <- pp_ls[[x]]
+  # subset the original SpatialExperiment
+  sub <- spe[, spe$sample_id == x]
+  #  Genes from Fig. 6 of Moffitt et al. (2018)
+  genes <- c("Slc18a2", "Esr1", "Pgr")
+  gex <- assay(sub)[genes, ] %>%
+    t() %>%
+    as.matrix() %>%
+    data.frame() %>%
+    set_rownames(NULL)
+  # gene expression to marks [ME: is it really expression?]
+  marks(pp) <- gex
+  return(pp)
 })
 names(pp) <- zstack_list
-#calculate the metric for example slide '-0.09'
-res <- calcMetric('markcorr', pp, zstack_list, 'Esr1', continuous = TRUE)
-p <- ggplot(res, aes(r, iso, colour = stack)) + geom_line() + theme_light() + geom_line(aes(x=r,y=theo),linetype = "dashed", color = 'black')
+# calculate the metric for example slide '-0.09'
+res <- calcMetric("markcorr", pp, zstack_list, "Esr1", continuous = TRUE)
+p <- ggplot(res, aes(r, iso, colour = stack)) +
+  geom_line() +
+  theme_light() +
+  geom_line(aes(x = r, y = theo), linetype = "dashed", color = "black")
 
 p
 ```
 
 ##### Local Measures
 
-Next to observation window metrics, we can calculate point level statistics as well. One such option is the local indicators of spatial association (LISA). This gives one curve per field of view [@baddeleySpatialPointPatterns2015 pp. 247-248].
+Next to observation window metrics, we can calculate point level statistics as well. One such option is the local indicators of spatial association (LISA). This gives one curve per  point in the field of view [@baddeleySpatialPointPatterns2015 pp. 247-248].
 
 ```{r, message = FALSE, warning=FALSE, fig.height=5, fig.width=10, results='hide'}
-pp <- subset(pp_ls[['0.01']], marks %in% 'OD Mature')
+pp <- subset(pp_ls[["0.01"]], marks %in% "OD Mature")
 L_odmature_lisa <- localL(pp)
 
 df <- as.data.frame(L_odmature_lisa)
 dfm <- reshape2::melt(df, "r")
 
-get_sel <- dfm %>% filter(r > 200.5630 & r < 201.4388, variable != "theo") %>%
-  mutate(sel = value) %>% select(variable, sel)
+get_sel <- dfm %>%
+  filter(r > 200.5630 & r < 201.4388, variable != "theo") %>%
+  mutate(sel = value) %>%
+  select(variable, sel)
 
 dfm <- dfm %>% left_join(get_sel)
 
-p <- ggplot(dfm, aes(x=r, y=value, group=variable, colour=sel)) +
-  geom_line() + 
+p <- ggplot(dfm, aes(x = r, y = value, group = variable, colour = sel)) +
+  geom_line() +
   scale_color_continuous(type = "viridis") +
   geom_vline(xintercept = 200) +
   theme(legend.position = "none") +
@@ -331,10 +354,13 @@ These curves could be analysed using tools from functional data analysis such as
 The same analysis as above can be performed between two celltypes. The corresponding functions are called cross functions. As an exercise, try to implement (similar to the analysis above) a cross comparison between two cell types of interest. With the provided functions this is possible, just give a function you like as input and a vector with two cell types you wish to compare. You can look at functions in the documentation of `spatstat.explore`
 
 ```{r, message = FALSE, warning=FALSE, fig.height=5, fig.width=10, results='hide'}
-#to be deleted from the handed out version
-res <- calcMetric('Lcross', pp_ls, by = zstack_list, celltype = c('OD Mature', 'Microglia'), continuous = FALSE)
+# to be deleted from the handed out version
+res <- calcMetric("Lcross", pp_ls, by = zstack_list, celltype = c("OD Mature", "Microglia"), continuous = FALSE)
 
-q <- ggplot(res, aes(r, iso, colour = stack)) + geom_line() + theme_light() + geom_line(aes(x=r,y=theo),linetype = "dashed", color = 'black')
+q <- ggplot(res, aes(r, iso, colour = stack)) +
+  geom_line() +
+  theme_light() +
+  geom_line(aes(x = r, y = theo), linetype = "dashed", color = "black")
 ```
 
 ```{r, fig.height=5, fig.width=10}
