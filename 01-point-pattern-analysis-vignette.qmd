@@ -22,6 +22,13 @@ is made up of three specifications [@baddeleySpatstatPackageAnalyzing2005]:
 
 On this central object from `spatstat` metrics can be calculated. 
 
+### `SpatialExperiment` Object
+
+ ![Structure of a `SpatialExperiment` object as introduced by Righelli et al. ](https://raw.githubusercontent.com/drighelli/SpatialExperiment/devel/vignettes/SPE.png) 
+ 
+The input to `pasta` is a `SpatialExperiment` object. This is a central object
+in the `BioConductor` framework to store spatial transcriptomics data. 
+
 ```{r}
 #| label: load-data
 #source some helper functions
@@ -35,7 +42,7 @@ We see that we have an object of class `SpatialExperiment` with $161$ genes (row
 and $73655$ cells. This object is very similar to a `SingleCellExperiment` object
 except it has the added `spatialCoords` slot. One slot in the `colData` is called
 `sample_id` which defines the so called z-slices. The three dimensional tissue
-is cut in the z-axis into consecutive two dimensional slices. 
+is cut in the z-axis into consecutive two dimensional slices [@righelliSpatialExperimentInfrastructureSpatiallyresolved2022]. 
 
 Next, we want to extract three slices of this `SpatialExperiment` object and
 convert the 2D slices into `ppp` objects.
@@ -196,8 +203,6 @@ pp_df <- lapply(zstack_list, function(x){
     df$stack <- x
     return(df)
 })%>% bind_rows()
-#add a one to not get log(zero) - standard approach in scRNA seq analysis
-pp_df$Esr1 <- pp_df$Esr1 + 1
 
 ggplot(pp_df, aes(x,y, colour = log(Esr1 + 1))) + 
   geom_point(size = 0.5) +
@@ -262,6 +267,8 @@ q <- ggplot(res2, aes(r, iso, colour = stack)) + geom_line() + theme_light() + g
 ```{r, fig.height=5, fig.width=10}
 p|q
 ```
+
+Your turn: Try to compare the arrangement of `Ependymal` cells across these three sections. You can choose any function you might find in the documentation of `spatstat.explore`.
 
 A similar analysis can be performed for continuous marks. As an exercise, try to calculated a mark weighted correlation function `markcorr`. You get more information on this function by typing `?markcorr`
 
@@ -334,7 +341,37 @@ q <- ggplot(res, aes(r, iso, colour = stack)) + geom_line() + theme_light() + ge
 q
 ```
 
+Your turn: try to compare the colocalisation of `OD Mature` and `Ependymal`cells. Again, the documentation of `spatstat.explore` will help you to find good cross functions. 
+
+### Edge effects and their corrections for spatial metrics
+
+Edge effects describe the phenomenon that not the entire point process is observed, but rather only the part within the window $W$. This means the value of various statistics could be biased along the edges [@baddeleySpatialPointPatterns2015, pp. 213].
+
+There are many corrections for edge effects that are briefly listed here [@baddeleySpatialPointPatterns2015, pp. 214-219]:
+
+Border correction:
+
+In border correction the summation of data points is restricted to $x_i$ for which $b(x_i,r)$ is completely in the window $W$.
+
+Isotropic correction:
+
+We can regard edge effect as a sampling bias. Larger distances (e.g. close to the edges) are less likely to be observed. This can be corrected for.
+
+Translation correction:
+
+A stationary point process $X$ is invariant to translations. So the entire point process can be shifted by a vector $s$ to be at the position $X+s$.
+
 ## Summary and Considerations
+
+- Point patterns are realisations of a point process. In the analysis we make inferences about the point process.
+
+- A point process assumes stochasticity. Therefore, HTS-based approaches are not suitable for point pattern analysis
+
+- There are global metrics for the comparison within a celltype or between celltypes
+
+- There are corresponding metrics for single cells and their interactions
+
+- Point pattern analysis allows for the analysis of continuous gene expression marks as well.
 
 ```{r}
 sessionInfo()
