@@ -1,6 +1,7 @@
 suppressPackageStartupMessages({
   library(SpatialExperiment)
-  library(spatstat)
+  library(spatstat.geom)
+  library(spatstat.explore)
   library(dplyr)
   library(ggplot2)
   library(patchwork)
@@ -8,12 +9,10 @@ suppressPackageStartupMessages({
   library(Voyager)
   library(SpatialFeatureExperiment)
   library(SFEData)
-  library(scran)
-  library(scater)
   library(spdep)
   library(stringr)
-  library(magrittr)
   library(tidyr)
+  library(magrittr)
 })
 
 .ppp <- \(spe, marks = NULL) {
