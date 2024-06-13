@@ -10,6 +10,7 @@ suppressPackageStartupMessages({
   library(SpatialFeatureExperiment)
   library(SFEData)
   library(spdep)
+  library(sf)
   library(stringr)
   library(tidyr)
   library(magrittr)

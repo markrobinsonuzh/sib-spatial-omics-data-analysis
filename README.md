@@ -25,7 +25,10 @@ Please bring your personal laptop with an installation of `R`. The `R` version m
 To install all necessary packages please run the following commands in `R`.
 
 ```
-pkgs <- c("????", "?????")
+pkgs <- c('SpatialExperiment', 'spatstat.geom', 'spatstat.explore', 
+'dplyr', 'ggplot2', 'patchwork', 'reshape2', 'Voyager', 
+'SpatialFeatureExperiment', 'SFEData', 'spdep', 'sf', 'stringr', 'tidyr',
+'magrittr')
 
 install.packages("BiocManager")
 BiocManager::install(pkgs)
