@@ -28,7 +28,7 @@ To install all necessary packages please run the following commands in `R`.
 pkgs <- c('SpatialExperiment', 'spatstat.geom', 'spatstat.explore', 
 'dplyr', 'ggplot2', 'patchwork', 'reshape2', 'Voyager', 
 'SpatialFeatureExperiment', 'SFEData', 'spdep', 'sf', 'stringr', 'tidyr',
-'magrittr')
+'magrittr','scater')
 
 install.packages("BiocManager")
 BiocManager::install(pkgs)
