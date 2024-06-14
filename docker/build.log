@@ -1,0 +1,997 @@
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load .dockerignore
+#1 transferring context: 109B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 170B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/bioconductor/bioconductor_docker:RELEASE_3_19
+#3 DONE 0.0s
+
+#4 [internal] load build context
+#4 transferring context: 307B done
+#4 DONE 0.0s
+
+#5 [1/3] FROM docker.io/bioconductor/bioconductor_docker:RELEASE_3_19
+#5 DONE 0.1s
+
+#6 [2/3] COPY install.R /tmp/
+#6 DONE 0.0s
+
+#7 [3/3] RUN R -f /tmp/install.R &&     R --version
+#7 0.275 
+#7 0.275 R version 4.4.0 (2024-04-24) -- "Puppy Cup"
+#7 0.275 Copyright (C) 2024 The R Foundation for Statistical Computing
+#7 0.275 Platform: x86_64-pc-linux-gnu
+#7 0.275 
+#7 0.275 R is free software and comes with ABSOLUTELY NO WARRANTY.
+#7 0.275 You are welcome to redistribute it under certain conditions.
+#7 0.275 Type 'license()' or 'licence()' for distribution details.
+#7 0.275 
+#7 0.275   Natural language support but running in an English locale
+#7 0.275 
+#7 0.275 R is a collaborative project with many contributors.
+#7 0.275 Type 'contributors()' for more information and
+#7 0.275 'citation()' on how to cite R or R packages in publications.
+#7 0.275 
+#7 0.275 Type 'demo()' for some demos, 'help()' for on-line help, or
+#7 0.275 'help.start()' for an HTML browser interface to help.
+#7 0.275 Type 'q()' to quit R.
+#7 0.275 
+#7 0.382 > pkgs <- c('SpatialExperiment', 'spatstat.geom', 'spatstat.explore', 
+#7 0.382 +           'dplyr', 'ggplot2', 'patchwork', 'reshape2', 'Voyager', 
+#7 0.382 +           'SpatialFeatureExperiment', 'SFEData', 'spdep', 'sf', 
+#7 0.382 +           'stringr', 'tidyr','magrittr')
+#7 0.382 > BiocManager::install(pkgs)
+#7 1.585 'getOption("repos")' replaces Bioconductor standard repositories, see
+#7 1.585 'help("repositories", package = "BiocManager")' for details.
+#7 1.585 Replacement repositories:
+#7 1.585     CRAN: https://p3m.dev/cran/__linux__/jammy/latest
+#7 6.116 Bioconductor version 3.19 (BiocManager 1.30.23), R 4.4.0 (2024-04-24)
+#7 6.118 Installing package(s) 'SpatialExperiment', 'spatstat.geom', 'spatstat.explore',
+#7 6.118   'dplyr', 'ggplot2', 'patchwork', 'reshape2', 'Voyager',
+#7 6.118   'SpatialFeatureExperiment', 'SFEData', 'spdep', 'sf', 'tidyr'
+#7 6.926 also installing the dependencies ‘zlibbioc’, ‘bit’, ‘formatR’, ‘statmod’, ‘Biostrings’, ‘XVector’, ‘SparseArray’, ‘UCSC.utils’, ‘GenomeInfoDbData’, ‘blob’, ‘bit64’, ‘plogr’, ‘colorspace’, ‘lambda.r’, ‘futile.options’, ‘sparseMatrixStats’, ‘rhdf5filters’, ‘limma’, ‘R.oo’, ‘R.methodsS3’, ‘sitmo’, ‘bitops’, ‘KEGGREST’, ‘GenomicRanges’, ‘DelayedArray’, ‘MatrixGenerics’, ‘IRanges’, ‘GenomeInfoDb’, ‘S4Arrays’, ‘dbplyr’, ‘RSQLite’, ‘filelock’, ‘tensor’, ‘farver’, ‘labeling’, ‘munsell’, ‘RColorBrewer’, ‘viridisLite’, ‘futile.logger’, ‘snow’, ‘BH’, ‘igraph’, ‘RcppEigen’, ‘RcppHNSW’, ‘DelayedMatrixStats’, ‘HDF5Array’, ‘rhdf5’, ‘edgeR’, ‘R.utils’, ‘dqrng’, ‘beachmat’, ‘scuttle’, ‘Rhdf5lib’, ‘tiff’, ‘jpeg’, ‘png’, ‘locfit’, ‘fftwtools’, ‘RCurl’, ‘geometries’, ‘AnnotationDbi’, ‘wk’, ‘proxy’, ‘SingleCellExperiment’, ‘rjson’, ‘magick’, ‘S4Vectors’, ‘SummarizedExperiment’, ‘BiocGenerics’, ‘BiocFileCache’, ‘spatstat.data’, ‘spatstat.utils’, ‘deldir’, ‘polyclip’, ‘spatstat.random’, ‘spatstat.sparse’, ‘goftest’, ‘abind’, ‘generics’, ‘tidyselect’, ‘gtable’, ‘isoband’, ‘scales’, ‘plyr’, ‘BiocParallel’, ‘bluster’, ‘ggnewscale’, ‘matrixStats’, ‘memuse’, ‘RSpectra’, ‘scico’, ‘terra’, ‘Biobase’, ‘BiocNeighbors’, ‘data.table’, ‘DropletUtils’, ‘EBImage’, ‘sfheaders’, ‘zeallot’, ‘AnnotationHub’, ‘ExperimentHub’, ‘spData’, ‘units’, ‘s2’, ‘e1071’, ‘sp’, ‘classInt’, ‘DBI’
+#7 6.926 
+#7 6.928 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/zlibbioc_1.50.0_R_x86_64-pc-linux-gnu.tar.gz'
+#7 7.755 Content type 'application/gzip' length 234961 bytes (229 KB)
+#7 7.755 ==================================================
+#7 8.117 downloaded 229 KB
+#7 8.117 
+#7 8.123 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/bit_4.0.5_R_x86_64-pc-linux-gnu.tar.gz'
+#7 8.963 Content type 'application/gzip' length 1146403 bytes (1.1 MB)
+#7 8.976 ==================================================
+#7 9.412 downloaded 1.1 MB
+#7 9.412 
+#7 9.421 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/formatR_1.14_R_x86_64-pc-linux-gnu.tar.gz'
+#7 10.25 Content type 'application/gzip' length 151324 bytes (147 KB)
+#7 10.25 ==================================================
+#7 10.47 downloaded 147 KB
+#7 10.47 
+#7 10.48 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/statmod_1.5.0_R_x86_64-pc-linux-gnu.tar.gz'
+#7 11.38 Content type 'application/gzip' length 316795 bytes (309 KB)
+#7 11.38 ==================================================
+#7 11.76 downloaded 309 KB
+#7 11.76 
+#7 11.77 trying URL 'https://bioconductor.org/packages/3.19/bioc/src/contrib/Biostrings_2.72.1.tar.gz'
+#7 12.03 Content type 'application/x-gzip' length 12408794 bytes (11.8 MB)
+#7 12.10 ==================================================
+#7 13.55 downloaded 11.8 MB
+#7 13.55 
+#7 13.55 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/XVector_0.44.0_R_x86_64-pc-linux-gnu.tar.gz'
+#7 14.09 Content type 'application/gzip' length 760924 bytes (743 KB)
+#7 14.09 ==================================================
+#7 14.17 downloaded 743 KB
+#7 14.17 
+#7 14.18 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/SparseArray_1.4.8_R_x86_64-pc-linux-gnu.tar.gz'
+#7 14.43 Content type 'application/gzip' length 2254194 bytes (2.1 MB)
+#7 14.44 ==================================================
+#7 14.67 downloaded 2.1 MB
+#7 14.67 
+#7 14.68 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/UCSC.utils_1.0.0_R_x86_64-pc-linux-gnu.tar.gz'
+#7 15.06 Content type 'application/gzip' length 293749 bytes (286 KB)
+#7 15.06 ==================================================
+#7 15.10 downloaded 286 KB
+#7 15.10 
+#7 15.10 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/GenomeInfoDbData_1.2.12_R_x86_64-pc-linux-gnu.tar.gz'
+#7 15.68 Content type 'application/gzip' length 12563150 bytes (12.0 MB)
+#7 15.87 ==================================================
+#7 17.05 downloaded 12.0 MB
+#7 17.05 
+#7 17.05 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/blob_1.2.4_R_x86_64-pc-linux-gnu.tar.gz'
+#7 17.86 Content type 'application/gzip' length 47718 bytes (46 KB)
+#7 17.86 ==================================================
+#7 17.86 downloaded 46 KB
+#7 17.86 
+#7 17.86 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/bit64_4.0.5_R_x86_64-pc-linux-gnu.tar.gz'
+#7 18.84 Content type 'application/gzip' length 486930 bytes (475 KB)
+#7 18.84 ==================================================
+#7 19.17 downloaded 475 KB
+#7 19.17 
+#7 19.18 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/plogr_0.2.0_R_x86_64-pc-linux-gnu.tar.gz'
+#7 19.86 Content type 'application/gzip' length 13119 bytes (12 KB)
+#7 19.86 ==================================================
+#7 19.86 downloaded 12 KB
+#7 19.86 
+#7 19.86 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/colorspace_2.1-0_R_x86_64-pc-linux-gnu.tar.gz'
+#7 20.22 Content type 'application/gzip' length 2597579 bytes (2.5 MB)
+#7 20.23 ==================================================
+#7 20.53 downloaded 2.5 MB
+#7 20.53 
+#7 20.54 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/lambda.r_1.2.4_R_x86_64-pc-linux-gnu.tar.gz'
+#7 20.89 Content type 'application/gzip' length 110377 bytes (107 KB)
+#7 20.89 ==================================================
+#7 20.92 downloaded 107 KB
+#7 20.92 
+#7 20.93 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/futile.options_1.0.1_R_x86_64-pc-linux-gnu.tar.gz'
+#7 21.38 Content type 'application/gzip' length 18477 bytes (18 KB)
+#7 21.39 ==================================================
+#7 21.39 downloaded 18 KB
+#7 21.39 
+#7 21.40 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/sparseMatrixStats_1.16.0_R_x86_64-pc-linux-gnu.tar.gz'
+#7 22.10 Content type 'application/gzip' length 2445930 bytes (2.3 MB)
+#7 22.20 ==================================================
+#7 22.67 downloaded 2.3 MB
+#7 22.67 
+#7 22.68 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/rhdf5filters_1.16.0_R_x86_64-pc-linux-gnu.tar.gz'
+#7 23.57 Content type 'application/gzip' length 673714 bytes (657 KB)
+#7 23.58 ==================================================
+#7 24.14 downloaded 657 KB
+#7 24.14 
+#7 24.15 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/limma_3.60.2_R_x86_64-pc-linux-gnu.tar.gz'
+#7 24.84 Content type 'application/gzip' length 3126410 bytes (3.0 MB)
+#7 24.95 ==================================================
+#7 25.64 downloaded 3.0 MB
+#7 25.64 
+#7 25.64 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/R.oo_1.26.0_R_x86_64-pc-linux-gnu.tar.gz'
+#7 26.22 Content type 'application/gzip' length 996020 bytes (972 KB)
+#7 26.32 ==================================================
+#7 26.41 downloaded 972 KB
+#7 26.41 
+#7 26.42 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/R.methodsS3_1.8.2_R_x86_64-pc-linux-gnu.tar.gz'
+#7 27.22 Content type 'application/gzip' length 82646 bytes (80 KB)
+#7 27.22 ==================================================
+#7 27.60 downloaded 80 KB
+#7 27.60 
+#7 27.60 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/sitmo_2.0.2_R_x86_64-pc-linux-gnu.tar.gz'
+#7 28.18 Content type 'application/gzip' length 170307 bytes (166 KB)
+#7 28.18 ==================================================
+#7 28.46 downloaded 166 KB
+#7 28.46 
+#7 28.46 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/bitops_1.0-7_R_x86_64-pc-linux-gnu.tar.gz'
+#7 29.14 Content type 'application/gzip' length 25649 bytes (25 KB)
+#7 29.14 ==================================================
+#7 29.14 downloaded 25 KB
+#7 29.14 
+#7 29.14 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/KEGGREST_1.44.0_R_x86_64-pc-linux-gnu.tar.gz'
+#7 29.91 Content type 'application/gzip' length 193689 bytes (189 KB)
+#7 29.91 ==================================================
+#7 30.37 downloaded 189 KB
+#7 30.37 
+#7 30.38 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/GenomicRanges_1.56.0_R_x86_64-pc-linux-gnu.tar.gz'
+#7 30.63 Content type 'application/gzip' length 2211121 bytes (2.1 MB)
+#7 30.64 ==================================================
+#7 31.29 downloaded 2.1 MB
+#7 31.29 
+#7 31.30 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/DelayedArray_0.30.1_R_x86_64-pc-linux-gnu.tar.gz'
+#7 31.77 Content type 'application/gzip' length 2419216 bytes (2.3 MB)
+#7 31.79 ==================================================
+#7 32.07 downloaded 2.3 MB
+#7 32.07 
+#7 32.08 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/MatrixGenerics_1.16.0_R_x86_64-pc-linux-gnu.tar.gz'
+#7 32.44 Content type 'application/gzip' length 435554 bytes (425 KB)
+#7 32.45 ==================================================
+#7 32.50 downloaded 425 KB
+#7 32.50 
+#7 32.50 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/IRanges_2.38.0_R_x86_64-pc-linux-gnu.tar.gz'
+#7 32.94 Content type 'application/gzip' length 2476946 bytes (2.4 MB)
+#7 32.95 ==================================================
+#7 33.30 downloaded 2.4 MB
+#7 33.30 
+#7 33.31 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/GenomeInfoDb_1.40.1_R_x86_64-pc-linux-gnu.tar.gz'
+#7 33.56 Content type 'application/gzip' length 4176957 bytes (4.0 MB)
+#7 33.58 ==================================================
+#7 34.09 downloaded 4.0 MB
+#7 34.09 
+#7 34.10 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/S4Arrays_1.4.1_R_x86_64-pc-linux-gnu.tar.gz'
+#7 34.55 Content type 'application/gzip' length 784047 bytes (765 KB)
+#7 34.55 ==================================================
+#7 34.66 downloaded 765 KB
+#7 34.66 
+#7 34.66 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/dbplyr_2.5.0_R_x86_64-pc-linux-gnu.tar.gz'
+#7 35.02 Content type 'application/gzip' length 1248341 bytes (1.2 MB)
+#7 35.02 ==================================================
+#7 35.18 downloaded 1.2 MB
+#7 35.18 
+#7 35.19 trying URL 'https://p3m.dev/cran/__linux__/jammy/latest/src/contrib/RSQLite_2.3.7.tar.gz'
+#7 36.11 Content type 'binary/octet-stream' length 1317387 bytes (1.3 MB)
+#7 36.11 ==================================================
+#7 36.28 downloaded 1.3 MB
+#7 36.28 
+#7 36.28 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/filelock_1.0.3_R_x86_64-pc-linux-gnu.tar.gz'
+#7 36.73 Content type 'application/gzip' length 24738 bytes (24 KB)
+#7 36.73 ==================================================
+#7 36.74 downloaded 24 KB
+#7 36.74 
+#7 36.75 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/tensor_1.5_R_x86_64-pc-linux-gnu.tar.gz'
+#7 37.72 Content type 'application/gzip' length 13796 bytes (13 KB)
+#7 37.73 ==================================================
+#7 37.73 downloaded 13 KB
+#7 37.73 
+#7 37.74 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/farver_2.1.2_R_x86_64-pc-linux-gnu.tar.gz'
+#7 38.19 Content type 'application/gzip' length 1466808 bytes (1.4 MB)
+#7 38.21 ==================================================
+#7 38.68 downloaded 1.4 MB
+#7 38.68 
+#7 38.69 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/labeling_0.4.3_R_x86_64-pc-linux-gnu.tar.gz'
+#7 39.11 Content type 'application/gzip' length 60996 bytes (59 KB)
+#7 39.11 ==================================================
+#7 39.13 downloaded 59 KB
+#7 39.13 
+#7 39.14 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/munsell_0.5.1_R_x86_64-pc-linux-gnu.tar.gz'
+#7 39.52 Content type 'application/gzip' length 243150 bytes (237 KB)
+#7 39.52 ==================================================
+#7 39.73 downloaded 237 KB
+#7 39.73 
+#7 39.73 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/RColorBrewer_1.1-3_R_x86_64-pc-linux-gnu.tar.gz'
+#7 40.09 Content type 'application/gzip' length 51969 bytes (50 KB)
+#7 40.09 ==================================================
+#7 40.13 downloaded 50 KB
+#7 40.13 
+#7 40.13 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/viridisLite_0.4.2_R_x86_64-pc-linux-gnu.tar.gz'
+#7 40.58 Content type 'application/gzip' length 1297591 bytes (1.2 MB)
+#7 40.59 ==================================================
+#7 40.95 downloaded 1.2 MB
+#7 40.95 
+#7 40.96 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/futile.logger_1.4.3_R_x86_64-pc-linux-gnu.tar.gz'
+#7 41.34 Content type 'application/gzip' length 96109 bytes (93 KB)
+#7 41.34 ==================================================
+#7 41.38 downloaded 93 KB
+#7 41.38 
+#7 41.39 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/snow_0.4-4_R_x86_64-pc-linux-gnu.tar.gz'
+#7 42.04 Content type 'application/gzip' length 97189 bytes (94 KB)
+#7 42.04 ==================================================
+#7 42.10 downloaded 94 KB
+#7 42.10 
+#7 42.11 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/BH_1.84.0-0_R_x86_64-pc-linux-gnu.tar.gz'
+#7 42.91 Content type 'application/gzip' length 13028355 bytes (12.4 MB)
+#7 43.45 ==================================================
+#7 45.40 downloaded 12.4 MB
+#7 45.40 
+#7 45.42 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/igraph_2.0.3_R_x86_64-pc-linux-gnu.tar.gz'
+#7 46.06 Content type 'application/gzip' length 5535682 bytes (5.3 MB)
+#7 46.07 ==================================================
+#7 47.11 downloaded 5.3 MB
+#7 47.11 
+#7 47.13 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/RcppEigen_0.3.4.0.0_R_x86_64-pc-linux-gnu.tar.gz'
+#7 47.58 Content type 'application/gzip' length 1843177 bytes (1.8 MB)
+#7 47.59 ==================================================
+#7 47.82 downloaded 1.8 MB
+#7 47.82 
+#7 47.82 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/RcppHNSW_0.6.0_R_x86_64-pc-linux-gnu.tar.gz'
+#7 48.92 Content type 'application/gzip' length 208671 bytes (203 KB)
+#7 48.93 ==================================================
+#7 49.34 downloaded 203 KB
+#7 49.34 
+#7 49.35 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/DelayedMatrixStats_1.26.0_R_x86_64-pc-linux-gnu.tar.gz'
+#7 50.17 Content type 'application/gzip' length 735356 bytes (718 KB)
+#7 50.18 ==================================================
+#7 50.77 downloaded 718 KB
+#7 50.77 
+#7 50.78 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/HDF5Array_1.32.0_R_x86_64-pc-linux-gnu.tar.gz'
+#7 51.62 Content type 'application/gzip' length 14169999 bytes (13.5 MB)
+#7 52.06 ==================================================
+#7 54.33 downloaded 13.5 MB
+#7 54.33 
+#7 54.34 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/rhdf5_2.48.0_R_x86_64-pc-linux-gnu.tar.gz'
+#7 55.26 Content type 'application/gzip' length 6918438 bytes (6.6 MB)
+#7 55.65 ==================================================
+#7 56.67 downloaded 6.6 MB
+#7 56.67 
+#7 56.68 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/edgeR_4.2.0_R_x86_64-pc-linux-gnu.tar.gz'
+#7 57.38 Content type 'application/gzip' length 5897201 bytes (5.6 MB)
+#7 57.65 ==================================================
+#7 58.53 downloaded 5.6 MB
+#7 58.53 
+#7 58.54 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/R.utils_2.12.3_R_x86_64-pc-linux-gnu.tar.gz'
+#7 59.37 Content type 'application/gzip' length 1441884 bytes (1.4 MB)
+#7 59.42 ==================================================
+#7 60.04 downloaded 1.4 MB
+#7 60.04 
+#7 60.05 trying URL 'https://p3m.dev/cran/__linux__/jammy/latest/src/contrib/dqrng_0.4.1.tar.gz'
+#7 60.86 Content type 'binary/octet-stream' length 210080 bytes (205 KB)
+#7 60.86 ==================================================
+#7 60.90 downloaded 205 KB
+#7 60.90 
+#7 60.91 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/beachmat_2.20.0_R_x86_64-pc-linux-gnu.tar.gz'
+#7 61.58 Content type 'application/gzip' length 23381164 bytes (22.3 MB)
+#7 61.81 ==================================================
+#7 64.26 downloaded 22.3 MB
+#7 64.26 
+#7 64.27 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/scuttle_1.14.0_R_x86_64-pc-linux-gnu.tar.gz'
+#7 64.73 Content type 'application/gzip' length 4220003 bytes (4.0 MB)
+#7 64.84 ==================================================
+#7 65.30 downloaded 4.0 MB
+#7 65.30 
+#7 65.31 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/Rhdf5lib_1.26.0_R_x86_64-pc-linux-gnu.tar.gz'
+#7 66.15 Content type 'application/gzip' length 16175141 bytes (15.4 MB)
+#7 66.57 ==================================================
+#7 68.97 downloaded 15.4 MB
+#7 68.97 
+#7 68.97 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/tiff_0.1-12_R_x86_64-pc-linux-gnu.tar.gz'
+#7 69.65 Content type 'application/gzip' length 48790 bytes (47 KB)
+#7 69.65 ==================================================
+#7 69.65 downloaded 47 KB
+#7 69.65 
+#7 69.66 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/jpeg_0.1-10_R_x86_64-pc-linux-gnu.tar.gz'
+#7 70.30 Content type 'application/gzip' length 29268 bytes (28 KB)
+#7 70.30 ==================================================
+#7 70.30 downloaded 28 KB
+#7 70.30 
+#7 70.31 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/png_0.1-8_R_x86_64-pc-linux-gnu.tar.gz'
+#7 70.90 Content type 'application/gzip' length 40556 bytes (39 KB)
+#7 70.90 ==================================================
+#7 70.91 downloaded 39 KB
+#7 70.91 
+#7 70.92 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/locfit_1.5-9.9_R_x86_64-pc-linux-gnu.tar.gz'
+#7 71.49 Content type 'application/gzip' length 539604 bytes (526 KB)
+#7 71.49 ==================================================
+#7 71.57 downloaded 526 KB
+#7 71.57 
+#7 71.57 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/fftwtools_0.9-11_R_x86_64-pc-linux-gnu.tar.gz'
+#7 72.18 Content type 'application/gzip' length 167006 bytes (163 KB)
+#7 72.18 ==================================================
+#7 72.22 downloaded 163 KB
+#7 72.22 
+#7 72.23 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/RCurl_1.98-1.14_R_x86_64-pc-linux-gnu.tar.gz'
+#7 72.76 Content type 'application/gzip' length 1093313 bytes (1.0 MB)
+#7 72.76 ==================================================
+#7 72.89 downloaded 1.0 MB
+#7 72.89 
+#7 72.90 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/geometries_0.2.4_R_x86_64-pc-linux-gnu.tar.gz'
+#7 73.43 Content type 'application/gzip' length 272730 bytes (266 KB)
+#7 73.43 ==================================================
+#7 73.47 downloaded 266 KB
+#7 73.47 
+#7 73.48 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/AnnotationDbi_1.66.0_R_x86_64-pc-linux-gnu.tar.gz'
+#7 74.35 Content type 'application/gzip' length 5206828 bytes (5.0 MB)
+#7 74.61 ==================================================
+#7 75.56 downloaded 5.0 MB
+#7 75.56 
+#7 75.56 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/wk_0.9.1_R_x86_64-pc-linux-gnu.tar.gz'
+#7 76.03 Content type 'application/gzip' length 1734358 bytes (1.7 MB)
+#7 76.03 ==================================================
+#7 76.25 downloaded 1.7 MB
+#7 76.25 
+#7 76.26 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/proxy_0.4-27_R_x86_64-pc-linux-gnu.tar.gz'
+#7 76.69 Content type 'application/gzip' length 175548 bytes (171 KB)
+#7 76.70 ==================================================
+#7 76.73 downloaded 171 KB
+#7 76.73 
+#7 76.73 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/SingleCellExperiment_1.26.0_R_x86_64-pc-linux-gnu.tar.gz'
+#7 77.18 Content type 'application/gzip' length 1977702 bytes (1.9 MB)
+#7 77.18 ==================================================
+#7 77.41 downloaded 1.9 MB
+#7 77.41 
+#7 77.41 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/rjson_0.2.21_R_x86_64-pc-linux-gnu.tar.gz'
+#7 77.94 Content type 'application/gzip' length 150816 bytes (147 KB)
+#7 77.95 ==================================================
+#7 77.97 downloaded 147 KB
+#7 77.97 
+#7 77.97 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/magick_2.8.3_R_x86_64-pc-linux-gnu.tar.gz'
+#7 78.41 Content type 'application/gzip' length 5025344 bytes (4.8 MB)
+#7 78.42 ==================================================
+#7 79.07 downloaded 4.8 MB
+#7 79.07 
+#7 79.08 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/S4Vectors_0.42.0_R_x86_64-pc-linux-gnu.tar.gz'
+#7 79.51 Content type 'application/gzip' length 2547261 bytes (2.4 MB)
+#7 79.51 ==================================================
+#7 79.79 downloaded 2.4 MB
+#7 79.79 
+#7 79.80 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/SummarizedExperiment_1.34.0_R_x86_64-pc-linux-gnu.tar.gz'
+#7 80.09 Content type 'application/gzip' length 1991595 bytes (1.9 MB)
+#7 80.10 ==================================================
+#7 80.33 downloaded 1.9 MB
+#7 80.33 
+#7 80.34 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/BiocGenerics_0.50.0_R_x86_64-pc-linux-gnu.tar.gz'
+#7 80.71 Content type 'application/gzip' length 616078 bytes (601 KB)
+#7 80.71 ==================================================
+#7 80.78 downloaded 601 KB
+#7 80.78 
+#7 80.78 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/BiocFileCache_2.12.0_R_x86_64-pc-linux-gnu.tar.gz'
+#7 81.14 Content type 'application/gzip' length 535505 bytes (522 KB)
+#7 81.15 ==================================================
+#7 81.21 downloaded 522 KB
+#7 81.21 
+#7 81.22 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/spatstat.data_3.0-4_R_x86_64-pc-linux-gnu.tar.gz'
+#7 81.82 Content type 'application/gzip' length 4054440 bytes (3.9 MB)
+#7 82.10 ==================================================
+#7 82.78 downloaded 3.9 MB
+#7 82.78 
+#7 82.78 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/spatstat.utils_3.0-4_R_x86_64-pc-linux-gnu.tar.gz'
+#7 83.45 Content type 'application/gzip' length 372435 bytes (363 KB)
+#7 83.45 ==================================================
+#7 83.90 downloaded 363 KB
+#7 83.90 
+#7 83.91 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/deldir_2.0-4_R_x86_64-pc-linux-gnu.tar.gz'
+#7 84.16 Content type 'application/gzip' length 278814 bytes (272 KB)
+#7 84.16 ==================================================
+#7 84.22 downloaded 272 KB
+#7 84.22 
+#7 84.23 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/polyclip_1.10-6_R_x86_64-pc-linux-gnu.tar.gz'
+#7 85.00 Content type 'application/gzip' length 119893 bytes (117 KB)
+#7 85.00 ==================================================
+#7 85.15 downloaded 117 KB
+#7 85.15 
+#7 85.15 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/spatstat.random_3.2-3_R_x86_64-pc-linux-gnu.tar.gz'
+#7 85.83 Content type 'application/gzip' length 1169851 bytes (1.1 MB)
+#7 85.83 ==================================================
+#7 86.35 downloaded 1.1 MB
+#7 86.35 
+#7 86.36 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/spatstat.sparse_3.0-3_R_x86_64-pc-linux-gnu.tar.gz'
+#7 87.16 Content type 'application/gzip' length 212312 bytes (207 KB)
+#7 87.16 ==================================================
+#7 87.29 downloaded 207 KB
+#7 87.29 
+#7 87.30 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/goftest_1.2-3_R_x86_64-pc-linux-gnu.tar.gz'
+#7 88.12 Content type 'application/gzip' length 58529 bytes (57 KB)
+#7 88.12 ==================================================
+#7 88.17 downloaded 57 KB
+#7 88.17 
+#7 88.18 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/abind_1.4-5_R_x86_64-pc-linux-gnu.tar.gz'
+#7 88.86 Content type 'application/gzip' length 62091 bytes (60 KB)
+#7 88.86 ==================================================
+#7 88.97 downloaded 60 KB
+#7 88.97 
+#7 88.98 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/generics_0.1.3_R_x86_64-pc-linux-gnu.tar.gz'
+#7 89.66 Content type 'application/gzip' length 82772 bytes (80 KB)
+#7 89.66 ==================================================
+#7 89.68 downloaded 80 KB
+#7 89.68 
+#7 89.68 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/tidyselect_1.2.1_R_x86_64-pc-linux-gnu.tar.gz'
+#7 90.49 Content type 'application/gzip' length 225158 bytes (219 KB)
+#7 90.49 ==================================================
+#7 90.84 downloaded 219 KB
+#7 90.84 
+#7 90.85 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/gtable_0.3.5_R_x86_64-pc-linux-gnu.tar.gz'
+#7 91.20 Content type 'application/gzip' length 217434 bytes (212 KB)
+#7 91.20 ==================================================
+#7 91.22 downloaded 212 KB
+#7 91.22 
+#7 91.23 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/isoband_0.2.7_R_x86_64-pc-linux-gnu.tar.gz'
+#7 91.59 Content type 'application/gzip' length 1644099 bytes (1.6 MB)
+#7 91.60 ==================================================
+#7 91.82 downloaded 1.6 MB
+#7 91.82 
+#7 91.83 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/scales_1.3.0_R_x86_64-pc-linux-gnu.tar.gz'
+#7 92.27 Content type 'application/gzip' length 711384 bytes (694 KB)
+#7 92.28 ==================================================
+#7 92.36 downloaded 694 KB
+#7 92.36 
+#7 92.36 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/plyr_1.8.9_R_x86_64-pc-linux-gnu.tar.gz'
+#7 93.06 Content type 'application/gzip' length 786400 bytes (767 KB)
+#7 93.07 ==================================================
+#7 93.25 downloaded 767 KB
+#7 93.25 
+#7 93.25 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/BiocParallel_1.38.0_R_x86_64-pc-linux-gnu.tar.gz'
+#7 93.79 Content type 'application/gzip' length 2119964 bytes (2.0 MB)
+#7 93.80 ==================================================
+#7 94.07 downloaded 2.0 MB
+#7 94.07 
+#7 94.08 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/bluster_1.14.0_R_x86_64-pc-linux-gnu.tar.gz'
+#7 94.63 Content type 'application/gzip' length 4026461 bytes (3.8 MB)
+#7 94.64 ==================================================
+#7 95.09 downloaded 3.8 MB
+#7 95.09 
+#7 95.10 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/ggnewscale_0.4.10_R_x86_64-pc-linux-gnu.tar.gz'
+#7 95.48 Content type 'application/gzip' length 344640 bytes (336 KB)
+#7 95.49 ==================================================
+#7 95.52 downloaded 336 KB
+#7 95.52 
+#7 95.53 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/matrixStats_1.3.0_R_x86_64-pc-linux-gnu.tar.gz'
+#7 95.79 Content type 'application/gzip' length 483028 bytes (471 KB)
+#7 95.79 ==================================================
+#7 95.85 downloaded 471 KB
+#7 95.85 
+#7 95.86 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/memuse_4.2-3_R_x86_64-pc-linux-gnu.tar.gz'
+#7 96.12 Content type 'application/gzip' length 628792 bytes (614 KB)
+#7 96.12 ==================================================
+#7 96.34 downloaded 614 KB
+#7 96.34 
+#7 96.34 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/RSpectra_0.16-1_R_x86_64-pc-linux-gnu.tar.gz'
+#7 96.72 Content type 'application/gzip' length 513181 bytes (501 KB)
+#7 96.72 ==================================================
+#7 96.81 downloaded 501 KB
+#7 96.81 
+#7 96.81 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/scico_1.5.0_R_x86_64-pc-linux-gnu.tar.gz'
+#7 97.16 Content type 'application/gzip' length 323566 bytes (315 KB)
+#7 97.16 ==================================================
+#7 97.20 downloaded 315 KB
+#7 97.20 
+#7 97.21 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/terra_1.7-78_R_x86_64-pc-linux-gnu.tar.gz'
+#7 97.57 Content type 'application/gzip' length 4288410 bytes (4.1 MB)
+#7 97.58 ==================================================
+#7 98.10 downloaded 4.1 MB
+#7 98.10 
+#7 98.10 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/Biobase_2.64.0_R_x86_64-pc-linux-gnu.tar.gz'
+#7 98.55 Content type 'application/gzip' length 2481261 bytes (2.4 MB)
+#7 98.56 ==================================================
+#7 98.86 downloaded 2.4 MB
+#7 98.86 
+#7 98.87 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/BiocNeighbors_1.22.0_R_x86_64-pc-linux-gnu.tar.gz'
+#7 99.54 Content type 'application/gzip' length 6862081 bytes (6.5 MB)
+#7 99.56 ==================================================
+#7 100.4 downloaded 6.5 MB
+#7 100.4 
+#7 100.4 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/data.table_1.15.4_R_x86_64-pc-linux-gnu.tar.gz'
+#7 101.0 Content type 'application/gzip' length 2204507 bytes (2.1 MB)
+#7 101.0 ==================================================
+#7 101.3 downloaded 2.1 MB
+#7 101.3 
+#7 101.3 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/DropletUtils_1.24.0_R_x86_64-pc-linux-gnu.tar.gz'
+#7 101.9 Content type 'application/gzip' length 9101815 bytes (8.7 MB)
+#7 102.0 ==================================================
+#7 103.1 downloaded 8.7 MB
+#7 103.1 
+#7 103.1 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/EBImage_4.46.0_R_x86_64-pc-linux-gnu.tar.gz'
+#7 103.6 Content type 'application/gzip' length 6024440 bytes (5.7 MB)
+#7 103.6 ==================================================
+#7 104.2 downloaded 5.7 MB
+#7 104.2 
+#7 104.2 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/sfheaders_0.4.4_R_x86_64-pc-linux-gnu.tar.gz'
+#7 104.5 Content type 'application/gzip' length 462306 bytes (451 KB)
+#7 104.5 ==================================================
+#7 104.5 downloaded 451 KB
+#7 104.5 
+#7 104.6 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/zeallot_0.1.0_R_x86_64-pc-linux-gnu.tar.gz'
+#7 105.0 Content type 'application/gzip' length 59150 bytes (57 KB)
+#7 105.0 ==================================================
+#7 105.0 downloaded 57 KB
+#7 105.0 
+#7 105.0 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/AnnotationHub_3.12.0_R_x86_64-pc-linux-gnu.tar.gz'
+#7 105.6 Content type 'application/gzip' length 1297658 bytes (1.2 MB)
+#7 105.6 ==================================================
+#7 105.9 downloaded 1.2 MB
+#7 105.9 
+#7 105.9 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/ExperimentHub_2.12.0_R_x86_64-pc-linux-gnu.tar.gz'
+#7 106.6 Content type 'application/gzip' length 437545 bytes (427 KB)
+#7 106.6 ==================================================
+#7 107.3 downloaded 427 KB
+#7 107.3 
+#7 107.3 trying URL 'https://p3m.dev/cran/__linux__/jammy/latest/src/contrib/spData_2.3.1.tar.gz'
+#7 108.5 Content type 'binary/octet-stream' length 4177549 bytes (4.0 MB)
+#7 108.5 ==================================================
+#7 110.0 downloaded 4.0 MB
+#7 110.0 
+#7 110.0 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/units_0.8-5_R_x86_64-pc-linux-gnu.tar.gz'
+#7 110.3 Content type 'application/gzip' length 359525 bytes (351 KB)
+#7 110.3 ==================================================
+#7 110.6 downloaded 351 KB
+#7 110.6 
+#7 110.6 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/s2_1.1.6_R_x86_64-pc-linux-gnu.tar.gz'
+#7 110.9 Content type 'application/gzip' length 2169126 bytes (2.1 MB)
+#7 111.0 ==================================================
+#7 112.1 downloaded 2.1 MB
+#7 112.1 
+#7 112.1 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/e1071_1.7-14_R_x86_64-pc-linux-gnu.tar.gz'
+#7 112.4 Content type 'application/gzip' length 595991 bytes (582 KB)
+#7 112.4 ==================================================
+#7 112.9 downloaded 582 KB
+#7 112.9 
+#7 112.9 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/sp_2.1-4_R_x86_64-pc-linux-gnu.tar.gz'
+#7 113.3 Content type 'application/gzip' length 2101971 bytes (2.0 MB)
+#7 113.3 ==================================================
+#7 113.5 downloaded 2.0 MB
+#7 113.5 
+#7 113.5 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/classInt_0.4-10_R_x86_64-pc-linux-gnu.tar.gz'
+#7 113.9 Content type 'application/gzip' length 498962 bytes (487 KB)
+#7 113.9 ==================================================
+#7 114.0 downloaded 487 KB
+#7 114.0 
+#7 114.0 trying URL 'https://p3m.dev/cran/__linux__/jammy/latest/src/contrib/DBI_1.2.3.tar.gz'
+#7 114.8 Content type 'binary/octet-stream' length 916324 bytes (894 KB)
+#7 114.8 ==================================================
+#7 114.9 downloaded 894 KB
+#7 114.9 
+#7 114.9 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/SpatialExperiment_1.14.0_R_x86_64-pc-linux-gnu.tar.gz'
+#7 115.2 Content type 'application/gzip' length 5744268 bytes (5.5 MB)
+#7 115.2 ==================================================
+#7 115.7 downloaded 5.5 MB
+#7 115.7 
+#7 115.7 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/spatstat.geom_3.2-9_R_x86_64-pc-linux-gnu.tar.gz'
+#7 116.4 Content type 'application/gzip' length 4061655 bytes (3.9 MB)
+#7 116.6 ==================================================
+#7 117.1 downloaded 3.9 MB
+#7 117.1 
+#7 117.1 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/spatstat.explore_3.2-7_R_x86_64-pc-linux-gnu.tar.gz'
+#7 117.9 Content type 'application/gzip' length 3478679 bytes (3.3 MB)
+#7 118.0 ==================================================
+#7 118.6 downloaded 3.3 MB
+#7 118.6 
+#7 118.6 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/dplyr_1.1.4_R_x86_64-pc-linux-gnu.tar.gz'
+#7 119.0 Content type 'application/gzip' length 1494570 bytes (1.4 MB)
+#7 119.1 ==================================================
+#7 119.2 downloaded 1.4 MB
+#7 119.2 
+#7 119.2 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/ggplot2_3.5.1_R_x86_64-pc-linux-gnu.tar.gz'
+#7 119.6 Content type 'application/gzip' length 5005843 bytes (4.8 MB)
+#7 119.6 ==================================================
+#7 120.2 downloaded 4.8 MB
+#7 120.2 
+#7 120.2 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/patchwork_1.2.0_R_x86_64-pc-linux-gnu.tar.gz'
+#7 120.6 Content type 'application/gzip' length 3297491 bytes (3.1 MB)
+#7 120.6 ==================================================
+#7 120.9 downloaded 3.1 MB
+#7 120.9 
+#7 120.9 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/reshape2_1.4.4_R_x86_64-pc-linux-gnu.tar.gz'
+#7 121.6 Content type 'application/gzip' length 116903 bytes (114 KB)
+#7 121.6 ==================================================
+#7 121.8 downloaded 114 KB
+#7 121.8 
+#7 121.8 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/Voyager_1.6.0_R_x86_64-pc-linux-gnu.tar.gz'
+#7 122.1 Content type 'application/gzip' length 4253019 bytes (4.1 MB)
+#7 122.2 ==================================================
+#7 122.6 downloaded 4.1 MB
+#7 122.6 
+#7 122.6 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/SpatialFeatureExperiment_1.6.1_R_x86_64-pc-linux-gnu.tar.gz'
+#7 123.0 Content type 'application/gzip' length 2804757 bytes (2.7 MB)
+#7 123.0 ==================================================
+#7 123.3 downloaded 2.7 MB
+#7 123.3 
+#7 123.3 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/SFEData_1.6.0_R_x86_64-pc-linux-gnu.tar.gz'
+#7 124.1 Content type 'application/gzip' length 307420 bytes (300 KB)
+#7 124.1 ==================================================
+#7 124.4 downloaded 300 KB
+#7 124.4 
+#7 124.4 trying URL 'https://p3m.dev/cran/__linux__/jammy/latest/src/contrib/spdep_1.3-5.tar.gz'
+#7 125.5 Content type 'binary/octet-stream' length 4605182 bytes (4.4 MB)
+#7 125.5 ==================================================
+#7 125.9 downloaded 4.4 MB
+#7 125.9 
+#7 125.9 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/sf_1.0-16_R_x86_64-pc-linux-gnu.tar.gz'
+#7 126.3 Content type 'application/gzip' length 3580497 bytes (3.4 MB)
+#7 126.3 ==================================================
+#7 126.7 downloaded 3.4 MB
+#7 126.7 
+#7 126.7 trying URL 'https://bioconductor.org/packages/3.19/container-binaries/bioconductor_docker/src/contrib/tidyr_1.3.1_R_x86_64-pc-linux-gnu.tar.gz'
+#7 127.5 Content type 'application/gzip' length 1172106 bytes (1.1 MB)
+#7 127.5 ==================================================
+#7 128.1 downloaded 1.1 MB
+#7 128.1 
+#7 128.3 * installing *binary* package ‘zlibbioc’ ...
+#7 128.3 * DONE (zlibbioc)
+#7 128.5 * installing *binary* package ‘bit’ ...
+#7 128.6 * DONE (bit)
+#7 128.8 * installing *binary* package ‘formatR’ ...
+#7 128.8 * DONE (formatR)
+#7 129.0 * installing *binary* package ‘statmod’ ...
+#7 129.0 * DONE (statmod)
+#7 129.6 * installing *binary* package ‘GenomeInfoDbData’ ...
+#7 129.6 * DONE (GenomeInfoDbData)
+#7 129.8 * installing *binary* package ‘blob’ ...
+#7 129.8 * DONE (blob)
+#7 130.0 * installing *binary* package ‘plogr’ ...
+#7 130.0 * DONE (plogr)
+#7 130.4 * installing *binary* package ‘colorspace’ ...
+#7 130.4 * DONE (colorspace)
+#7 130.7 * installing *binary* package ‘futile.options’ ...
+#7 130.7 * DONE (futile.options)
+#7 130.9 * installing *binary* package ‘R.methodsS3’ ...
+#7 130.9 * DONE (R.methodsS3)
+#7 131.2 * installing *binary* package ‘sitmo’ ...
+#7 131.2 * DONE (sitmo)
+#7 131.5 * installing *binary* package ‘bitops’ ...
+#7 131.5 * DONE (bitops)
+#7 131.7 * installing *binary* package ‘filelock’ ...
+#7 131.7 * DONE (filelock)
+#7 132.0 * installing *binary* package ‘tensor’ ...
+#7 132.0 * DONE (tensor)
+#7 132.2 * installing *binary* package ‘farver’ ...
+#7 132.2 * DONE (farver)
+#7 132.5 * installing *binary* package ‘labeling’ ...
+#7 132.5 * DONE (labeling)
+#7 132.7 * installing *binary* package ‘RColorBrewer’ ...
+#7 132.7 * DONE (RColorBrewer)
+#7 132.9 * installing *binary* package ‘viridisLite’ ...
+#7 132.9 * DONE (viridisLite)
+#7 133.2 * installing *binary* package ‘snow’ ...
+#7 133.2 * DONE (snow)
+#7 145.0 * installing *binary* package ‘BH’ ...
+#7 146.3 * DONE (BH)
+#7 147.0 * installing *binary* package ‘igraph’ ...
+#7 147.0 * DONE (igraph)
+#7 147.8 * installing *binary* package ‘RcppEigen’ ...
+#7 147.8 * DONE (RcppEigen)
+#7 148.1 * installing *binary* package ‘RcppHNSW’ ...
+#7 148.1 * DONE (RcppHNSW)
+#7 150.1 * installing *binary* package ‘Rhdf5lib’ ...
+#7 150.1 * DONE (Rhdf5lib)
+#7 150.3 * installing *binary* package ‘tiff’ ...
+#7 150.3 * DONE (tiff)
+#7 150.5 * installing *binary* package ‘jpeg’ ...
+#7 150.5 * DONE (jpeg)
+#7 150.7 * installing *binary* package ‘png’ ...
+#7 150.7 * DONE (png)
+#7 150.9 * installing *binary* package ‘locfit’ ...
+#7 150.9 * DONE (locfit)
+#7 151.2 * installing *binary* package ‘fftwtools’ ...
+#7 151.2 * DONE (fftwtools)
+#7 151.5 * installing *binary* package ‘geometries’ ...
+#7 151.5 * DONE (geometries)
+#7 151.7 * installing *binary* package ‘wk’ ...
+#7 151.7 * DONE (wk)
+#7 152.0 * installing *binary* package ‘proxy’ ...
+#7 152.0 * DONE (proxy)
+#7 152.3 * installing *binary* package ‘rjson’ ...
+#7 152.3 * DONE (rjson)
+#7 152.8 * installing *binary* package ‘magick’ ...
+#7 152.8 * DONE (magick)
+#7 153.0 * installing *binary* package ‘BiocGenerics’ ...
+#7 153.0 * DONE (BiocGenerics)
+#7 153.3 * installing *binary* package ‘spatstat.utils’ ...
+#7 153.3 * DONE (spatstat.utils)
+#7 153.6 * installing *binary* package ‘deldir’ ...
+#7 153.6 * DONE (deldir)
+#7 153.8 * installing *binary* package ‘polyclip’ ...
+#7 153.8 * DONE (polyclip)
+#7 154.0 * installing *binary* package ‘goftest’ ...
+#7 154.0 * DONE (goftest)
+#7 154.2 * installing *binary* package ‘abind’ ...
+#7 154.2 * DONE (abind)
+#7 154.4 * installing *binary* package ‘generics’ ...
+#7 154.5 * DONE (generics)
+#7 154.7 * installing *binary* package ‘tidyselect’ ...
+#7 154.7 * DONE (tidyselect)
+#7 154.9 * installing *binary* package ‘gtable’ ...
+#7 154.9 * DONE (gtable)
+#7 155.2 * installing *binary* package ‘isoband’ ...
+#7 155.2 * DONE (isoband)
+#7 155.4 * installing *binary* package ‘plyr’ ...
+#7 155.4 * DONE (plyr)
+#7 155.7 * installing *binary* package ‘matrixStats’ ...
+#7 155.7 * DONE (matrixStats)
+#7 155.9 * installing *binary* package ‘memuse’ ...
+#7 155.9 * DONE (memuse)
+#7 156.4 * installing *binary* package ‘terra’ ...
+#7 156.4 * DONE (terra)
+#7 156.8 * installing *binary* package ‘data.table’ ...
+#7 156.8 * DONE (data.table)
+#7 157.0 * installing *binary* package ‘zeallot’ ...
+#7 157.0 * DONE (zeallot)
+#7 157.2 * installing *binary* package ‘units’ ...
+#7 157.2 * DONE (units)
+#7 157.6 * installing *binary* package ‘sp’ ...
+#7 157.6 * DONE (sp)
+#7 157.8 * installing *binary* package ‘DBI’ ...
+#7 157.8 * DONE (DBI)
+#7 158.1 * installing *binary* package ‘bit64’ ...
+#7 158.1 * DONE (bit64)
+#7 158.3 * installing *binary* package ‘lambda.r’ ...
+#7 158.3 * DONE (lambda.r)
+#7 158.6 * installing *binary* package ‘rhdf5filters’ ...
+#7 158.6 * DONE (rhdf5filters)
+#7 158.9 * installing *binary* package ‘limma’ ...
+#7 158.9 * DONE (limma)
+#7 159.1 * installing *binary* package ‘R.oo’ ...
+#7 159.1 * DONE (R.oo)
+#7 159.4 * installing *binary* package ‘MatrixGenerics’ ...
+#7 159.4 * DONE (MatrixGenerics)
+#7 159.6 * installing *binary* package ‘munsell’ ...
+#7 159.6 * DONE (munsell)
+#7 159.8 * installing *binary* package ‘dqrng’ ...
+#7 159.8 * DONE (dqrng)
+#7 160.1 * installing *binary* package ‘RCurl’ ...
+#7 160.1 * DONE (RCurl)
+#7 160.4 * installing *binary* package ‘S4Vectors’ ...
+#7 160.5 * DONE (S4Vectors)
+#7 160.8 * installing *binary* package ‘spatstat.data’ ...
+#7 160.8 * DONE (spatstat.data)
+#7 161.0 * installing *binary* package ‘spatstat.sparse’ ...
+#7 161.0 * DONE (spatstat.sparse)
+#7 161.3 * installing *binary* package ‘RSpectra’ ...
+#7 161.3 * DONE (RSpectra)
+#7 161.6 * installing *binary* package ‘Biobase’ ...
+#7 161.7 * DONE (Biobase)
+#7 161.9 * installing *binary* package ‘sfheaders’ ...
+#7 161.9 * DONE (sfheaders)
+#7 162.4 * installing *binary* package ‘spData’ ...
+#7 162.4 * DONE (spData)
+#7 162.7 * installing *binary* package ‘s2’ ...
+#7 162.7 * DONE (s2)
+#7 162.9 * installing *binary* package ‘e1071’ ...
+#7 163.0 * DONE (e1071)
+#7 163.2 * installing *binary* package ‘dplyr’ ...
+#7 163.2 * DONE (dplyr)
+#7 163.4 * installing *binary* package ‘reshape2’ ...
+#7 163.5 * DONE (reshape2)
+#7 163.7 * installing *binary* package ‘UCSC.utils’ ...
+#7 163.7 * DONE (UCSC.utils)
+#7 164.1 * installing *binary* package ‘sparseMatrixStats’ ...
+#7 164.1 * DONE (sparseMatrixStats)
+#7 164.4 * installing *binary* package ‘IRanges’ ...
+#7 164.4 * DONE (IRanges)
+#7 164.7 * installing *binary* package ‘RSQLite’ ...
+#7 164.7 * DONE (RSQLite)
+#7 164.9 * installing *binary* package ‘futile.logger’ ...
+#7 164.9 * DONE (futile.logger)
+#7 165.5 * installing *binary* package ‘rhdf5’ ...
+#7 165.6 * DONE (rhdf5)
+#7 166.1 * installing *binary* package ‘edgeR’ ...
+#7 166.1 * DONE (edgeR)
+#7 166.4 * installing *binary* package ‘R.utils’ ...
+#7 166.4 * DONE (R.utils)
+#7 166.6 * installing *binary* package ‘scales’ ...
+#7 166.6 * DONE (scales)
+#7 167.1 * installing *binary* package ‘EBImage’ ...
+#7 167.1 * DONE (EBImage)
+#7 167.3 * installing *binary* package ‘classInt’ ...
+#7 167.3 * DONE (classInt)
+#7 167.6 * installing *binary* package ‘spatstat.geom’ ...
+#7 167.6 * DONE (spatstat.geom)
+#7 167.9 * installing *binary* package ‘tidyr’ ...
+#7 167.9 * DONE (tidyr)
+#7 168.1 * installing *binary* package ‘XVector’ ...
+#7 168.2 * DONE (XVector)
+#7 168.6 * installing *binary* package ‘GenomeInfoDb’ ...
+#7 168.6 * DONE (GenomeInfoDb)
+#7 168.9 * installing *binary* package ‘S4Arrays’ ...
+#7 168.9 * DONE (S4Arrays)
+#7 169.1 * installing *binary* package ‘dbplyr’ ...
+#7 169.1 * DONE (dbplyr)
+#7 169.4 * installing *binary* package ‘spatstat.random’ ...
+#7 169.4 * DONE (spatstat.random)
+#7 169.8 * installing *binary* package ‘BiocParallel’ ...
+#7 169.8 * DONE (BiocParallel)
+#7 170.0 * installing *binary* package ‘scico’ ...
+#7 170.0 * DONE (scico)
+#7 170.5 * installing *binary* package ‘ggplot2’ ...
+#7 170.5 * DONE (ggplot2)
+#7 171.0 * installing *binary* package ‘sf’ ...
+#7 171.0 * DONE (sf)
+#7 171.8 * installing *source* package ‘Biostrings’ ...
+#7 171.8 ** using staged installation
+#7 171.8 ** libs
+#7 171.8 using C compiler: ‘gcc (Ubuntu 11.4.0-1ubuntu1~22.04) 11.4.0’
+#7 171.8 gcc -I"/usr/local/lib/R/include" -DNDEBUG  -I'/usr/local/lib/R/site-library/S4Vectors/include' -I'/usr/local/lib/R/site-library/IRanges/include' -I'/usr/local/lib/R/site-library/XVector/include' -I/usr/local/include    -fpic  -g -O2 -fstack-protector-strong -Wformat -Wformat-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -c BAB_class.c -o BAB_class.o
+#7 171.9 gcc -I"/usr/local/lib/R/include" -DNDEBUG  -I'/usr/local/lib/R/site-library/S4Vectors/include' -I'/usr/local/lib/R/site-library/IRanges/include' -I'/usr/local/lib/R/site-library/XVector/include' -I/usr/local/include    -fpic  -g -O2 -fstack-protector-strong -Wformat -Wformat-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -c BitMatrix.c -o BitMatrix.o
+#7 172.0 gcc -I"/usr/local/lib/R/include" -DNDEBUG  -I'/usr/local/lib/R/site-library/S4Vectors/include' -I'/usr/local/lib/R/site-library/IRanges/include' -I'/usr/local/lib/R/site-library/XVector/include' -I/usr/local/include    -fpic  -g -O2 -fstack-protector-strong -Wformat -Wformat-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -c IRanges_stubs.c -o IRanges_stubs.o
+#7 172.1 gcc -I"/usr/local/lib/R/include" -DNDEBUG  -I'/usr/local/lib/R/site-library/S4Vectors/include' -I'/usr/local/lib/R/site-library/IRanges/include' -I'/usr/local/lib/R/site-library/XVector/include' -I/usr/local/include    -fpic  -g -O2 -fstack-protector-strong -Wformat -Wformat-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -c MIndex_class.c -o MIndex_class.o
+#7 172.2 gcc -I"/usr/local/lib/R/include" -DNDEBUG  -I'/usr/local/lib/R/site-library/S4Vectors/include' -I'/usr/local/lib/R/site-library/IRanges/include' -I'/usr/local/lib/R/site-library/XVector/include' -I/usr/local/include    -fpic  -g -O2 -fstack-protector-strong -Wformat -Wformat-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -c PreprocessedTB_class.c -o PreprocessedTB_class.o
+#7 172.4 gcc -I"/usr/local/lib/R/include" -DNDEBUG  -I'/usr/local/lib/R/site-library/S4Vectors/include' -I'/usr/local/lib/R/site-library/IRanges/include' -I'/usr/local/lib/R/site-library/XVector/include' -I/usr/local/include    -fpic  -g -O2 -fstack-protector-strong -Wformat -Wformat-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -c R_init_Biostrings.c -o R_init_Biostrings.o
+#7 172.5 gcc -I"/usr/local/lib/R/include" -DNDEBUG  -I'/usr/local/lib/R/site-library/S4Vectors/include' -I'/usr/local/lib/R/site-library/IRanges/include' -I'/usr/local/lib/R/site-library/XVector/include' -I/usr/local/include    -fpic  -g -O2 -fstack-protector-strong -Wformat -Wformat-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -c RoSeqs_utils.c -o RoSeqs_utils.o
+#7 172.5 gcc -I"/usr/local/lib/R/include" -DNDEBUG  -I'/usr/local/lib/R/site-library/S4Vectors/include' -I'/usr/local/lib/R/site-library/IRanges/include' -I'/usr/local/lib/R/site-library/XVector/include' -I/usr/local/include    -fpic  -g -O2 -fstack-protector-strong -Wformat -Wformat-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -c S4Vectors_stubs.c -o S4Vectors_stubs.o
+#7 172.8 gcc -I"/usr/local/lib/R/include" -DNDEBUG  -I'/usr/local/lib/R/site-library/S4Vectors/include' -I'/usr/local/lib/R/site-library/IRanges/include' -I'/usr/local/lib/R/site-library/XVector/include' -I/usr/local/include    -fpic  -g -O2 -fstack-protector-strong -Wformat -Wformat-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -c SparseList_utils.c -o SparseList_utils.o
+#7 172.9 gcc -I"/usr/local/lib/R/include" -DNDEBUG  -I'/usr/local/lib/R/site-library/S4Vectors/include' -I'/usr/local/lib/R/site-library/IRanges/include' -I'/usr/local/lib/R/site-library/XVector/include' -I/usr/local/include    -fpic  -g -O2 -fstack-protector-strong -Wformat -Wformat-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -c XStringSetList_class.c -o XStringSetList_class.o
+#7 172.9 gcc -I"/usr/local/lib/R/include" -DNDEBUG  -I'/usr/local/lib/R/site-library/S4Vectors/include' -I'/usr/local/lib/R/site-library/IRanges/include' -I'/usr/local/lib/R/site-library/XVector/include' -I/usr/local/include    -fpic  -g -O2 -fstack-protector-strong -Wformat -Wformat-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -c XStringSet_class.c -o XStringSet_class.o
+#7 173.0 gcc -I"/usr/local/lib/R/include" -DNDEBUG  -I'/usr/local/lib/R/site-library/S4Vectors/include' -I'/usr/local/lib/R/site-library/IRanges/include' -I'/usr/local/lib/R/site-library/XVector/include' -I/usr/local/include    -fpic  -g -O2 -fstack-protector-strong -Wformat -Wformat-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -c XString_class.c -o XString_class.o
+#7 173.1 gcc -I"/usr/local/lib/R/include" -DNDEBUG  -I'/usr/local/lib/R/site-library/S4Vectors/include' -I'/usr/local/lib/R/site-library/IRanges/include' -I'/usr/local/lib/R/site-library/XVector/include' -I/usr/local/include    -fpic  -g -O2 -fstack-protector-strong -Wformat -Wformat-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -c XVector_stubs.c -o XVector_stubs.o
+#7 173.3 gcc -I"/usr/local/lib/R/include" -DNDEBUG  -I'/usr/local/lib/R/site-library/S4Vectors/include' -I'/usr/local/lib/R/site-library/IRanges/include' -I'/usr/local/lib/R/site-library/XVector/include' -I/usr/local/include    -fpic  -g -O2 -fstack-protector-strong -Wformat -Wformat-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -c find_palindromes.c -o find_palindromes.o
+#7 173.4 gcc -I"/usr/local/lib/R/include" -DNDEBUG  -I'/usr/local/lib/R/site-library/S4Vectors/include' -I'/usr/local/lib/R/site-library/IRanges/include' -I'/usr/local/lib/R/site-library/XVector/include' -I/usr/local/include    -fpic  -g -O2 -fstack-protector-strong -Wformat -Wformat-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -c gtestsim.c -o gtestsim.o
+#7 173.4 gcc -I"/usr/local/lib/R/include" -DNDEBUG  -I'/usr/local/lib/R/site-library/S4Vectors/include' -I'/usr/local/lib/R/site-library/IRanges/include' -I'/usr/local/lib/R/site-library/XVector/include' -I/usr/local/include    -fpic  -g -O2 -fstack-protector-strong -Wformat -Wformat-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -c inject_code.c -o inject_code.o
+#7 173.5 gcc -I"/usr/local/lib/R/include" -DNDEBUG  -I'/usr/local/lib/R/site-library/S4Vectors/include' -I'/usr/local/lib/R/site-library/IRanges/include' -I'/usr/local/lib/R/site-library/XVector/include' -I/usr/local/include    -fpic  -g -O2 -fstack-protector-strong -Wformat -Wformat-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -c letter_frequency.c -o letter_frequency.o
+#7 173.8 gcc -I"/usr/local/lib/R/include" -DNDEBUG  -I'/usr/local/lib/R/site-library/S4Vectors/include' -I'/usr/local/lib/R/site-library/IRanges/include' -I'/usr/local/lib/R/site-library/XVector/include' -I/usr/local/include    -fpic  -g -O2 -fstack-protector-strong -Wformat -Wformat-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -c lowlevel_matching.c -o lowlevel_matching.o
+#7 174.1 gcc -I"/usr/local/lib/R/include" -DNDEBUG  -I'/usr/local/lib/R/site-library/S4Vectors/include' -I'/usr/local/lib/R/site-library/IRanges/include' -I'/usr/local/lib/R/site-library/XVector/include' -I/usr/local/include    -fpic  -g -O2 -fstack-protector-strong -Wformat -Wformat-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -c match_PWM.c -o match_PWM.o
+#7 174.1 gcc -I"/usr/local/lib/R/include" -DNDEBUG  -I'/usr/local/lib/R/site-library/S4Vectors/include' -I'/usr/local/lib/R/site-library/IRanges/include' -I'/usr/local/lib/R/site-library/XVector/include' -I/usr/local/include    -fpic  -g -O2 -fstack-protector-strong -Wformat -Wformat-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -c match_pattern.c -o match_pattern.o
+#7 174.2 gcc -I"/usr/local/lib/R/include" -DNDEBUG  -I'/usr/local/lib/R/site-library/S4Vectors/include' -I'/usr/local/lib/R/site-library/IRanges/include' -I'/usr/local/lib/R/site-library/XVector/include' -I/usr/local/include    -fpic  -g -O2 -fstack-protector-strong -Wformat -Wformat-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -c match_pattern_boyermoore.c -o match_pattern_boyermoore.o
+#7 174.4 gcc -I"/usr/local/lib/R/include" -DNDEBUG  -I'/usr/local/lib/R/site-library/S4Vectors/include' -I'/usr/local/lib/R/site-library/IRanges/include' -I'/usr/local/lib/R/site-library/XVector/include' -I/usr/local/include    -fpic  -g -O2 -fstack-protector-strong -Wformat -Wformat-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -c match_pattern_indels.c -o match_pattern_indels.o
+#7 174.4 gcc -I"/usr/local/lib/R/include" -DNDEBUG  -I'/usr/local/lib/R/site-library/S4Vectors/include' -I'/usr/local/lib/R/site-library/IRanges/include' -I'/usr/local/lib/R/site-library/XVector/include' -I/usr/local/include    -fpic  -g -O2 -fstack-protector-strong -Wformat -Wformat-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -c match_pattern_shiftor.c -o match_pattern_shiftor.o
+#7 174.5 gcc -I"/usr/local/lib/R/include" -DNDEBUG  -I'/usr/local/lib/R/site-library/S4Vectors/include' -I'/usr/local/lib/R/site-library/IRanges/include' -I'/usr/local/lib/R/site-library/XVector/include' -I/usr/local/include    -fpic  -g -O2 -fstack-protector-strong -Wformat -Wformat-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -c match_pdict.c -o match_pdict.o
+#7 174.6 gcc -I"/usr/local/lib/R/include" -DNDEBUG  -I'/usr/local/lib/R/site-library/S4Vectors/include' -I'/usr/local/lib/R/site-library/IRanges/include' -I'/usr/local/lib/R/site-library/XVector/include' -I/usr/local/include    -fpic  -g -O2 -fstack-protector-strong -Wformat -Wformat-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -c match_pdict_ACtree2.c -o match_pdict_ACtree2.o
+#7 174.9 gcc -I"/usr/local/lib/R/include" -DNDEBUG  -I'/usr/local/lib/R/site-library/S4Vectors/include' -I'/usr/local/lib/R/site-library/IRanges/include' -I'/usr/local/lib/R/site-library/XVector/include' -I/usr/local/include    -fpic  -g -O2 -fstack-protector-strong -Wformat -Wformat-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -c match_pdict_Twobit.c -o match_pdict_Twobit.o
+#7 174.9 gcc -I"/usr/local/lib/R/include" -DNDEBUG  -I'/usr/local/lib/R/site-library/S4Vectors/include' -I'/usr/local/lib/R/site-library/IRanges/include' -I'/usr/local/lib/R/site-library/XVector/include' -I/usr/local/include    -fpic  -g -O2 -fstack-protector-strong -Wformat -Wformat-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -c match_pdict_utils.c -o match_pdict_utils.o
+#7 175.2 gcc -I"/usr/local/lib/R/include" -DNDEBUG  -I'/usr/local/lib/R/site-library/S4Vectors/include' -I'/usr/local/lib/R/site-library/IRanges/include' -I'/usr/local/lib/R/site-library/XVector/include' -I/usr/local/include    -fpic  -g -O2 -fstack-protector-strong -Wformat -Wformat-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -c match_reporting.c -o match_reporting.o
+#7 175.3 gcc -I"/usr/local/lib/R/include" -DNDEBUG  -I'/usr/local/lib/R/site-library/S4Vectors/include' -I'/usr/local/lib/R/site-library/IRanges/include' -I'/usr/local/lib/R/site-library/XVector/include' -I/usr/local/include    -fpic  -g -O2 -fstack-protector-strong -Wformat -Wformat-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -c matchprobes.c -o matchprobes.o
+#7 175.3 gcc -I"/usr/local/lib/R/include" -DNDEBUG  -I'/usr/local/lib/R/site-library/S4Vectors/include' -I'/usr/local/lib/R/site-library/IRanges/include' -I'/usr/local/lib/R/site-library/XVector/include' -I/usr/local/include    -fpic  -g -O2 -fstack-protector-strong -Wformat -Wformat-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -c pmatchPattern.c -o pmatchPattern.o
+#7 175.4 gcc -I"/usr/local/lib/R/include" -DNDEBUG  -I'/usr/local/lib/R/site-library/S4Vectors/include' -I'/usr/local/lib/R/site-library/IRanges/include' -I'/usr/local/lib/R/site-library/XVector/include' -I/usr/local/include    -fpic  -g -O2 -fstack-protector-strong -Wformat -Wformat-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -c read_fasta_files.c -o read_fasta_files.o
+#7 175.5 gcc -I"/usr/local/lib/R/include" -DNDEBUG  -I'/usr/local/lib/R/site-library/S4Vectors/include' -I'/usr/local/lib/R/site-library/IRanges/include' -I'/usr/local/lib/R/site-library/XVector/include' -I/usr/local/include    -fpic  -g -O2 -fstack-protector-strong -Wformat -Wformat-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -c read_fastq_files.c -o read_fastq_files.o
+#7 175.7 gcc -I"/usr/local/lib/R/include" -DNDEBUG  -I'/usr/local/lib/R/site-library/S4Vectors/include' -I'/usr/local/lib/R/site-library/IRanges/include' -I'/usr/local/lib/R/site-library/XVector/include' -I/usr/local/include    -fpic  -g -O2 -fstack-protector-strong -Wformat -Wformat-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -c replaceAt.c -o replaceAt.o
+#7 175.8 gcc -I"/usr/local/lib/R/include" -DNDEBUG  -I'/usr/local/lib/R/site-library/S4Vectors/include' -I'/usr/local/lib/R/site-library/IRanges/include' -I'/usr/local/lib/R/site-library/XVector/include' -I/usr/local/include    -fpic  -g -O2 -fstack-protector-strong -Wformat -Wformat-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -c replace_letter_at.c -o replace_letter_at.o
+#7 175.9 gcc -I"/usr/local/lib/R/include" -DNDEBUG  -I'/usr/local/lib/R/site-library/S4Vectors/include' -I'/usr/local/lib/R/site-library/IRanges/include' -I'/usr/local/lib/R/site-library/XVector/include' -I/usr/local/include    -fpic  -g -O2 -fstack-protector-strong -Wformat -Wformat-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -c strutils.c -o strutils.o
+#7 175.9 gcc -I"/usr/local/lib/R/include" -DNDEBUG  -I'/usr/local/lib/R/site-library/S4Vectors/include' -I'/usr/local/lib/R/site-library/IRanges/include' -I'/usr/local/lib/R/site-library/XVector/include' -I/usr/local/include    -fpic  -g -O2 -fstack-protector-strong -Wformat -Wformat-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -c translate.c -o translate.o
+#7 176.0 gcc -I"/usr/local/lib/R/include" -DNDEBUG  -I'/usr/local/lib/R/site-library/S4Vectors/include' -I'/usr/local/lib/R/site-library/IRanges/include' -I'/usr/local/lib/R/site-library/XVector/include' -I/usr/local/include    -fpic  -g -O2 -fstack-protector-strong -Wformat -Wformat-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -c unstrsplit_methods.c -o unstrsplit_methods.o
+#7 176.1 gcc -I"/usr/local/lib/R/include" -DNDEBUG  -I'/usr/local/lib/R/site-library/S4Vectors/include' -I'/usr/local/lib/R/site-library/IRanges/include' -I'/usr/local/lib/R/site-library/XVector/include' -I/usr/local/include    -fpic  -g -O2 -fstack-protector-strong -Wformat -Wformat-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -c utils.c -o utils.o
+#7 176.2 gcc -I"/usr/local/lib/R/include" -DNDEBUG  -I'/usr/local/lib/R/site-library/S4Vectors/include' -I'/usr/local/lib/R/site-library/IRanges/include' -I'/usr/local/lib/R/site-library/XVector/include' -I/usr/local/include    -fpic  -g -O2 -fstack-protector-strong -Wformat -Wformat-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -c xscat.c -o xscat.o
+#7 176.3 gcc -shared -L/usr/local/lib/R/lib -L/usr/local/lib -o Biostrings.so BAB_class.o BitMatrix.o IRanges_stubs.o MIndex_class.o PreprocessedTB_class.o R_init_Biostrings.o RoSeqs_utils.o S4Vectors_stubs.o SparseList_utils.o XStringSetList_class.o XStringSet_class.o XString_class.o XVector_stubs.o find_palindromes.o gtestsim.o inject_code.o letter_frequency.o lowlevel_matching.o match_PWM.o match_pattern.o match_pattern_boyermoore.o match_pattern_indels.o match_pattern_shiftor.o match_pdict.o match_pdict_ACtree2.o match_pdict_Twobit.o match_pdict_utils.o match_reporting.o matchprobes.o pmatchPattern.o read_fasta_files.o read_fastq_files.o replaceAt.o replace_letter_at.o strutils.o translate.o unstrsplit_methods.o utils.o xscat.o -L/usr/local/lib/R/lib -lR
+#7 176.3 installing to /usr/local/lib/R/site-library/00LOCK-Biostrings/00new/Biostrings/libs
+#7 176.4 ** R
+#7 176.4 ** data
+#7 176.4 ** inst
+#7 176.4 ** byte-compile and prepare package for lazy loading
+#7 188.2 in method for ‘twoWayAlphabetFrequencyByQuality’ with signature ‘"QualityScaledXStringSet"’: no definition for class “QualityScaledXStringSet”
+#7 188.2 Creating a new generic function for ‘strsplit’ in package ‘Biostrings’
+#7 188.2 Creating a generic function for ‘ls’ from package ‘base’ in package ‘Biostrings’
+#7 188.2 Creating a new generic function for ‘pattern’ in package ‘Biostrings’
+#7 188.2 Creating a new generic function for ‘offset’ in package ‘Biostrings’
+#7 188.2 ** help
+#7 188.6 *** installing help indices
+#7 188.8 ** building package indices
+#7 189.1 ** installing vignettes
+#7 189.2 ** testing if installed package can be loaded from temporary location
+#7 190.9 ** checking absolute paths in shared objects and dynamic libraries
+#7 191.0 ** testing if installed package can be loaded from final location
+#7 193.3 ** testing if installed package keeps a record of temporary installation path
+#7 193.3 * DONE (Biostrings)
+#7 193.7 * installing *binary* package ‘SparseArray’ ...
+#7 193.7 * DONE (SparseArray)
+#7 194.0 * installing *binary* package ‘GenomicRanges’ ...
+#7 194.0 * DONE (GenomicRanges)
+#7 194.3 * installing *binary* package ‘BiocFileCache’ ...
+#7 194.3 * DONE (BiocFileCache)
+#7 194.5 * installing *binary* package ‘ggnewscale’ ...
+#7 194.5 * DONE (ggnewscale)
+#7 195.3 * installing *binary* package ‘BiocNeighbors’ ...
+#7 195.3 * DONE (BiocNeighbors)
+#7 195.6 * installing *binary* package ‘spatstat.explore’ ...
+#7 195.6 * DONE (spatstat.explore)
+#7 196.0 * installing *binary* package ‘patchwork’ ...
+#7 196.0 * DONE (patchwork)
+#7 196.4 * installing *binary* package ‘spdep’ ...
+#7 196.4 * DONE (spdep)
+#7 196.7 * installing *binary* package ‘KEGGREST’ ...
+#7 196.7 * DONE (KEGGREST)
+#7 197.0 * installing *binary* package ‘DelayedArray’ ...
+#7 197.0 * DONE (DelayedArray)
+#7 197.5 * installing *binary* package ‘bluster’ ...
+#7 197.5 * DONE (bluster)
+#7 197.7 * installing *binary* package ‘DelayedMatrixStats’ ...
+#7 197.7 * DONE (DelayedMatrixStats)
+#7 198.6 * installing *binary* package ‘HDF5Array’ ...
+#7 198.7 * DONE (HDF5Array)
+#7 202.1 * installing *binary* package ‘beachmat’ ...
+#7 202.2 * DONE (beachmat)
+#7 202.7 * installing *binary* package ‘AnnotationDbi’ ...
+#7 202.7 * DONE (AnnotationDbi)
+#7 203.1 * installing *binary* package ‘SummarizedExperiment’ ...
+#7 203.1 * DONE (SummarizedExperiment)
+#7 203.4 * installing *binary* package ‘SingleCellExperiment’ ...
+#7 203.4 * DONE (SingleCellExperiment)
+#7 203.7 * installing *binary* package ‘AnnotationHub’ ...
+#7 203.7 * DONE (AnnotationHub)
+#7 204.3 * installing *binary* package ‘scuttle’ ...
+#7 204.3 * DONE (scuttle)
+#7 204.5 * installing *binary* package ‘ExperimentHub’ ...
+#7 204.6 * DONE (ExperimentHub)
+#7 205.0 * installing *binary* package ‘SpatialExperiment’ ...
+#7 205.0 * DONE (SpatialExperiment)
+#7 205.9 * installing *binary* package ‘DropletUtils’ ...
+#7 205.9 * DONE (DropletUtils)
+#7 206.1 * installing *binary* package ‘SFEData’ ...
+#7 206.1 * DONE (SFEData)
+#7 206.5 * installing *binary* package ‘SpatialFeatureExperiment’ ...
+#7 206.5 * DONE (SpatialFeatureExperiment)
+#7 206.9 * installing *binary* package ‘Voyager’ ...
+#7 206.9 * DONE (Voyager)
+#7 206.9 
+#7 206.9 The downloaded source packages are in
+#7 206.9 	‘/tmp/RtmppKjmpd/downloaded_packages’
+#7 207.7 > 
+#7 207.7 Old packages: 'cachem', 'downlit', 'evaluate', 'fastmap', 'highr', 'knitr',
+#7 207.7   'openssl', 'ragg', 'rlang', 'rmarkdown', 'systemfonts', 'textshaping',
+#7 207.7   'xfun', 'KernSmooth', 'nlme', 'survival'
+#7 207.7 Warning message:
+#7 207.7 package(s) not installed when version(s) same as or greater than current; use
+#7 207.7   `force = TRUE` to re-install: 'stringr' 'magrittr' 
+#7 207.7 R version 4.4.0 (2024-04-24) -- "Puppy Cup"
+#7 207.7 Copyright (C) 2024 The R Foundation for Statistical Computing
+#7 207.7 Platform: x86_64-pc-linux-gnu
+#7 207.7 
+#7 207.7 R is free software and comes with ABSOLUTELY NO WARRANTY.
+#7 207.7 You are welcome to redistribute it under the terms of the
+#7 207.7 GNU General Public License versions 2 or 3.
+#7 207.7 For more information about these matters see
+#7 207.7 https://www.gnu.org/licenses/.
+#7 207.7 
+#7 DONE 208.2s
+
+#8 exporting to image
+#8 exporting layers
+#8 exporting layers 4.7s done
+#8 writing image sha256:ce33cc9dacd0668d7b6c8200849d727b4c7b70d5b825e13c9cd4f6e1cbb7b4e3 done
+#8 naming to docker.io/markrobinsonuzh/sibdays-pasta:14062024 done
+#8 DONE 4.7s
+
+What's Next?
+  View a summary of image vulnerabilities and recommendations → docker scout quickview

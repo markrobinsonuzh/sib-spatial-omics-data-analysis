@@ -34,6 +34,17 @@ install.packages("BiocManager")
 BiocManager::install(pkgs)
 ```
 
+### Docker
+
+In case there are problems installing the software, another option is to use an already-prepared [Docker](https://www.docker.com/) container. This would require you to install Docker on your computer; see [here](https://www.docker.com/products/docker-desktop/). To use this option, you can download the prepared image and run it as follows:
+
+```
+docker pull markrobinsonuzh/sibdays-pasta:14062024
+docker run -e PASSWORD=abc -p 8787:8787 markrobinsonuzh/sibdays-pasta:14062024
+```
+
+Once that is running, go to a web browser and use `localhost:8787` to bring up an RStudio instance that is running within the Docker container. All the software needed for the PASTA workshop is already installed there. You can upload files into your container.
+
 ## Organizers
 - Martin Emons, PhD Student, Statistical Bioinformatics Group, University of Zurich
 - Samuel Gunz, PhD Student, Statistical Bioinformatics Group, University of Zurich
