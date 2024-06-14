@@ -36,7 +36,7 @@ BiocManager::install(pkgs)
 
 ### Docker
 
-In case there are problems installing the software, another option is to use an already-prepared [Docker](https://www.docker.com/) container. This would require you to install Docker on your computer; see [here](https://www.docker.com/products/docker-desktop/). To use this option, you can download the prepared image and run it as follows:
+In case there are problems installing the software, another option is to use an already-prepared [Docker](https://www.docker.com/) container. This would require you to install Docker on your computer; see [here](https://www.docker.com/products/docker-desktop/). For Apple M1 useres: You need to enable the rosetta 2 virtualization feature in docker desktop. To use the docker container, you can download the prepared image and run it as follows:
 
 ```
 docker pull markrobinsonuzh/sibdays-pasta:14062024
