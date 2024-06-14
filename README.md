@@ -28,11 +28,22 @@ To install all necessary packages please run the following commands in `R`.
 pkgs <- c('SpatialExperiment', 'spatstat.geom', 'spatstat.explore', 
 'dplyr', 'ggplot2', 'patchwork', 'reshape2', 'Voyager', 
 'SpatialFeatureExperiment', 'SFEData', 'spdep', 'sf', 'stringr', 'tidyr',
-'magrittr')
+'magrittr','scater')
 
 install.packages("BiocManager")
 BiocManager::install(pkgs)
 ```
+
+### Docker
+
+In case there are problems installing the software, another option is to use an already-prepared [Docker](https://www.docker.com/) container. This would require you to install Docker on your computer; see [here](https://www.docker.com/products/docker-desktop/). For Apple M1 users: You need to enable the rosetta2 virtualization feature in docker desktop. To use the docker container, you can download the prepared image and run it as follows:
+
+```
+docker pull markrobinsonuzh/sibdays-pasta:14062024
+docker run -e PASSWORD=abc -p 8787:8787 markrobinsonuzh/sibdays-pasta:14062024
+```
+
+Once that is running, go to a web browser and use `localhost:8787` to bring up an RStudio instance that is running within the Docker container (username is `rstudio`, password is as set in the command above). All the software needed for the PASTA workshop is already installed there.
 
 ## Organizers
 - Martin Emons, PhD Student, Statistical Bioinformatics Group, University of Zurich
