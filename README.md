@@ -43,7 +43,7 @@ docker pull markrobinsonuzh/sibdays-pasta:14062024
 docker run -e PASSWORD=abc -p 8787:8787 markrobinsonuzh/sibdays-pasta:14062024
 ```
 
-Once that is running, go to a web browser and use `localhost:8787` to bring up an RStudio instance that is running within the Docker container. All the software needed for the PASTA workshop is already installed there. You can upload files into your container.
+Once that is running, go to a web browser and use `localhost:8787` to bring up an RStudio instance that is running within the Docker container. All the software needed for the PASTA workshop is already installed there.
 
 ## Organizers
 - Martin Emons, PhD Student, Statistical Bioinformatics Group, University of Zurich
