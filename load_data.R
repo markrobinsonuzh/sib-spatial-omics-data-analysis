@@ -33,7 +33,7 @@ y <- as(t(as.matrix(y)), "dgCMatrix")
   colData = cd))
 
 # Define the directory and file paths
-dir_path <- paste0(getwd(), "data")
+dir_path <- paste0(getwd(), "/data")
 file_path <- file.path(dir_path, "spe.rds")
 
 # Check if the directory exists, and create it if it doesn't
