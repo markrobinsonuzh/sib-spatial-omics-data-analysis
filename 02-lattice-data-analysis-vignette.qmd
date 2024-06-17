@@ -8,6 +8,7 @@ format:
 editor: visual
 editor_options: 
   chunk_output_type: console
+bibliography: misc/PASTA.bib
 ---
 
 # Introduction
@@ -48,8 +49,8 @@ sfe <- SFEData::McKellarMuscleData(dataset = "full")
 # Take spots that are covered with tissue
 sfe_tissue <- sfe[, colData(sfe)$in_tissue]
 # Filter out genes with no counts
-sfe_tissue <- sfe_tissue[rowSums(counts(sfe_tissue)) > 0,]
-# Convert counts log-transformed normalized expression values 
+sfe_tissue <- sfe_tissue[rowSums(counts(sfe_tissue)) > 0, ]
+# Convert counts log-transformed normalized expression values
 sfe_tissue <- scater::logNormCounts(sfe_tissue)
 ```
 
@@ -75,8 +76,9 @@ Lattice data refers to spatial data collected at locations arranged in a regular
 #| include: false
 #| eval: false
 plotSpatialFeature(sfe_tissue,
-                   "nCounts", 
-                   colGeometryName = "spotPoly")
+  "nCounts",
+  colGeometryName = "spotPoly"
+)
 ```
 
 As can be seen below, the Visium dataset is a regular lattice. The color shows the number of counts detected in each Visium spot. In contrast, the outlines of individual cells after segmentation (e.g., from a higher resolution spatial omics assay) could be seen as an irregular lattice. As this dataset also contains (manual) segmentations of myofibers (muscle cells stored as `myofiber_simplified`) we will illustrate calculations based on irregular lattice on the myofiber segmentations.
@@ -84,11 +86,12 @@ As can be seen below, the Visium dataset is a regular lattice. The color shows t
 ```{r}
 # A plot using the plotSpatialFeature from Voyager
 p <- plotSpatialFeature(sfe_tissue,
-                   "nCounts", 
-                   annotGeometryName = "myofiber_simplified") 
+  "nCounts",
+  annotGeometryName = "myofiber_simplified"
+)
 
-# This extracts the segmented cells 
-cells <- annotGeometry(sfe_tissue, "myofiber_simplified") |> 
+# This extracts the segmented cells
+cells <- annotGeometry(sfe_tissue, "myofiber_simplified") |>
   st_geometry()
 
 # We can also use ggplot and geom_sf to plot sf objects
@@ -111,46 +114,51 @@ colGraph(sfe_tissue, "visium") <- findVisiumGraph(sfe_tissue)
 ```
 
 ```{r}
-plotColGraph(sfe_tissue, 
-             colGraphName = "visium",
-             colGeometryName = "spotPoly") +
-    theme_void()
+plotColGraph(sfe_tissue,
+  colGraphName = "visium",
+  colGeometryName = "spotPoly"
+) +
+  theme_void()
 ```
 
 In an irregular lattice, the task of finding a spatial neighbourhood matrix is more complex, as different options exist. One option is to base the neighbourhood graph on neighbours that are in direct contact with each other, as implemented in the `poly2nb` method.
 
 ```{r}
-annotGraph(sfe_tissue, "myofiber_poly2nb") <- 
+annotGraph(sfe_tissue, "myofiber_poly2nb") <-
   findSpatialNeighbors(sfe_tissue,
-                       type = "myofiber_simplified",
-                       MARGIN = 3,
-                       method = "poly2nb", # wraps spdep function with same name
-                       zero.policy = TRUE)
+    type = "myofiber_simplified",
+    MARGIN = 3,
+    method = "poly2nb", # wraps spdep function with same name
+    zero.policy = TRUE
+  )
 ```
 
 ```{r}
 plotAnnotGraph(sfe_tissue,
-               annotGraphName = "myofiber_poly2nb", 
-               annotGeometryName = "myofiber_simplified") + 
+  annotGraphName = "myofiber_poly2nb",
+  annotGeometryName = "myofiber_simplified"
+) +
   theme_void()
 ```
 
 Alternatively, we could take the five nearest neighbours of each cell, which gives a quite distinct graph.
 
 ```{r}
-annotGraph(sfe_tissue, "knn5") <- 
+annotGraph(sfe_tissue, "knn5") <-
   findSpatialNeighbors(sfe_tissue,
-                       type = "myofiber_simplified",
-                       MARGIN = 3, # to use the annotation geometry
-                       method = "knearneigh", # wraps the spdep function with the same name
-                       k = 5,
-                       zero.policy = TRUE)
+    type = "myofiber_simplified",
+    MARGIN = 3, # to use the annotation geometry
+    method = "knearneigh", # wraps the spdep function with the same name
+    k = 5,
+    zero.policy = TRUE
+  )
 ```
 
 ```{r}
 plotAnnotGraph(sfe_tissue,
-               annotGraphName = "knn5", 
-               annotGeometryName = "myofiber_simplified") + 
+  annotGraphName = "knn5",
+  annotGeometryName = "myofiber_simplified"
+) +
   theme_void()
 ```
 
@@ -177,27 +185,33 @@ Moran's I is the most prominent measure of spatial autocorrelation. The values a
 In the first example we will calculate Moran's I for the number of counts and genes measured in the Visium dataset. First we have a look at the distribution by eye.
 
 ```{r}
-plotSpatialFeature(sfe_tissue, features = c("nCounts", "nGenes"),
-                   colGeometryName = "spotPoly",
-                   swap_rownames = "symbol")
+plotSpatialFeature(sfe_tissue,
+  features = c("nCounts", "nGenes"),
+  colGeometryName = "spotPoly",
+  swap_rownames = "symbol"
+)
 ```
 
 Based on these values we can calculate Moran's I
 
 ```{r}
-calculateUnivariate(t(colData(sfe_tissue)[,c("nCounts", "nGenes")]), 
-                    type = "moran",
-                    listw = colGraph(sfe_tissue, "visium"))
+calculateUnivariate(t(colData(sfe_tissue)[, c("nCounts", "nGenes")]),
+  type = "moran",
+  listw = colGraph(sfe_tissue, "visium")
+)
 ```
 
 We can further use permutation testing to get a significance of our estimates.
 
 ```{r}
-sfe_tissue <- colDataUnivariate(sfe_tissue, features = c("nCounts", "nGenes"), 
-                                colGraphName = "visium", nsim = 1000, 
-                                type = "moran.mc")
+sfe_tissue <- colDataUnivariate(sfe_tissue,
+  features = c("nCounts", "nGenes"),
+  colGraphName = "visium", nsim = 1000,
+  type = "moran.mc"
+)
 plotMoranMC(sfe_tissue, c("nCounts", "nGenes"),
-            linewidth = 2)
+  linewidth = 2
+)
 ```
 
 Here we can see the Moran's I values for the number of counts and genes that were identified in the Visium dataset and a permutation-based null distribution. As we can see, the Moran's I values both indicates positive spatial autocorrelation and is highly significant. This means that regions with similar count and number of measured gene values tend to cluster together. This is an interesting finding and was observed in other spatial transcriptomic datasets, see [@bhuvaLibrarySizeConfounds2024].
@@ -215,24 +229,32 @@ $$I_i = \frac{x_i - \bar{x}}{\sum_{k=1}^n(x_k-\bar{x})^2/(n-1)} \sum_{j=1}^n w_{
 where the index $i$ refers to the location for which the measure is calculated. The interpretation is analogous to the global Moran's I where a value of $I_i$ higher than $\mathbb{E}(I) = -1/(n-1)$ indicates spatial auto-correlation; smaller values indicate negative auto-correlation. It is important to note that, as for the global counterpart, the value of local Moran's I could be a result from both the high or low end of the values. Here will will calculate the local Moran's I value for the measurement of muscle fiber marker gene *Myh2*:
 
 ```{r}
-sfe_tissue <- runUnivariate(sfe_tissue, type = "localmoran", 
-                            features = "Myh2",
-                            colGraphName = "visium", 
-                            swap_rownames = "symbol")
+sfe_tissue <- runUnivariate(sfe_tissue,
+  type = "localmoran",
+  features = "Myh2",
+  colGraphName = "visium",
+  swap_rownames = "symbol"
+)
 
 # plot the expression values
-plotSpatialFeature(sfe_tissue, features = c("Myh2"), colGeometryName = "spotPoly",
-                   swap_rownames = "symbol")
+plotSpatialFeature(sfe_tissue,
+  features = c("Myh2"), colGeometryName = "spotPoly",
+  swap_rownames = "symbol"
+)
 
 # plot the local Moran's I values
-plotLocalResult(sfe_tissue, "localmoran", features = c("Myh2"),
-                colGeometryName = "spotPoly",swap_rownames = "symbol",
-                divergent = TRUE, diverge_center = 0)
+plotLocalResult(sfe_tissue, "localmoran",
+  features = c("Myh2"),
+  colGeometryName = "spotPoly", swap_rownames = "symbol",
+  divergent = TRUE, diverge_center = 0
+)
 
 # plot the local Moran's I p-values
-plotLocalResult(sfe_tissue, "localmoran", features = c("Myh2"), "-log10p_adj",
-                colGeometryName = "spotPoly",swap_rownames = "symbol",
-                divergent = TRUE, diverge_center = -log10(0.05))
+plotLocalResult(sfe_tissue, "localmoran",
+  features = c("Myh2"), "-log10p_adj",
+  colGeometryName = "spotPoly", swap_rownames = "symbol",
+  divergent = TRUE, diverge_center = -log10(0.05)
+)
 ```
 
 In the local version of Moran's I, the interpretation is the same as the global version. When interpreting local autocorrelation measures, it is important to consider both the effect size estimates and the significance level. Since the significance level is calculated for each spot separately, it is recommended to adjust for multiple testing. By default, `runUnivariate` uses the Benjamini & Hochberg correction. The local Moran's I statistics reveal locations in the tissue that have similar values to their neighbours (c.f., the lower part of the tissue).
@@ -243,29 +265,37 @@ Your turn: try to recalculate the local Moran's I with gene *Myh1*. What do you 
 #| include: false
 #| eval: false
 
-sfe_tissue <- runUnivariate(sfe_tissue, type = "localmoran", features = "Myh1",
-                            colGraphName = "visium", swap_rownames = "symbol")
+sfe_tissue <- runUnivariate(sfe_tissue,
+  type = "localmoran", features = "Myh1",
+  colGraphName = "visium", swap_rownames = "symbol"
+)
 
 # plot the expression values
-plotSpatialFeature(sfe_tissue, features = c("Myh1"), colGeometryName = "spotPoly",
-                   swap_rownames = "symbol")
+plotSpatialFeature(sfe_tissue,
+  features = c("Myh1"), colGeometryName = "spotPoly",
+  swap_rownames = "symbol"
+)
 
 # plot the local Moran's I values
-plotLocalResult(sfe_tissue, "localmoran", features = c("Myh1"),
-                colGeometryName = "spotPoly",swap_rownames = "symbol",
-                divergent = TRUE, diverge_center = 0)
+plotLocalResult(sfe_tissue, "localmoran",
+  features = c("Myh1"),
+  colGeometryName = "spotPoly", swap_rownames = "symbol",
+  divergent = TRUE, diverge_center = 0
+)
 
 # plot the local Moran's I p-values
-plotLocalResult(sfe_tissue, "localmoran", features = c("Myh1"), "-log10p_adj",
-                colGeometryName = "spotPoly",swap_rownames = "symbol",
-                divergent = TRUE, diverge_center = -log10(0.05))
+plotLocalResult(sfe_tissue, "localmoran",
+  features = c("Myh1"), "-log10p_adj",
+  colGeometryName = "spotPoly", swap_rownames = "symbol",
+  divergent = TRUE, diverge_center = -log10(0.05)
+)
 ```
 
 ## Advanced: Bivariate Moran's I
 
 There exists also a bivariate version of Moran's I. The package `spatialDM` [@liSpatialDMRapidIdentification2023] uses an adapted version of bivariate Moran's I to identify ligand-receptor pairs.
 
-For two continous observation the global bivariate Moran's I is defined as [@wartenbergMultivariateSpatialCorrelation1985 ;@bivandPackagesAnalyzingSpatial2022]
+For two continous observation the global bivariate Moran's I is defined as [@wartenbergMultivariateSpatialCorrelation1985 ; @bivandPackagesAnalyzingSpatial2022]
 
 $$I_B = \frac{\Sigma_i(\Sigma_j{w_{ij}y_j\times x_i})}{\Sigma_i{x_i^2}}$$
 
@@ -274,14 +304,16 @@ where $x_i$ and $y_i$ are the two variables of interest and $w_{ij}$ is the valu
 There exists a local version that we will explore here. Note that the results are not symmetric, but very similar to each other.
 
 ```{r}
-sfe_tissue <- runBivariate(sfe_tissue, "localmoran_bv", c("Myh1", "Myh2"), #wraps the method from spdep
-                           swap_rownames = "symbol", nsim = 1000)
+sfe_tissue <- runBivariate(sfe_tissue, "localmoran_bv", c("Myh1", "Myh2"), # wraps the method from spdep
+  swap_rownames = "symbol", nsim = 1000
+)
 
 localResultFeatures(sfe_tissue, "localmoran_bv")
 
 plotLocalResult(sfe_tissue, "localmoran_bv", c("Myh1__Myh2", "Myh2__Myh1"),
-                colGeometryName = "spotPoly",
-                divergent = TRUE, diverge_center = 0)
+  colGeometryName = "spotPoly",
+  divergent = TRUE, diverge_center = 0
+)
 ```
 
 Compare the results to the local Moran's I plots for genes *Myh1* and *Myh2*. What do you notice?
@@ -295,40 +327,45 @@ Let's compare the impact of different neighbourhood matrices on local autocorrel
 First, we base the neighbourhood matrix on contiguous neighbours.
 
 ```{r}
-sfe_tissue <- annotGeometryUnivariate(sfe_tissue, "localmoran", "area", 
-                                      annotGeometryName = "myofiber_simplified",
-                                      annotGraphName = "myofiber_poly2nb",
-                                      include_self = FALSE, zero.policy = TRUE,
-                                      name = "myofiber_poly2nb")
+sfe_tissue <- annotGeometryUnivariate(sfe_tissue, "localmoran", "area",
+  annotGeometryName = "myofiber_simplified",
+  annotGraphName = "myofiber_poly2nb",
+  include_self = FALSE, zero.policy = TRUE,
+  name = "myofiber_poly2nb"
+)
 
-plotLocalResult(sfe_tissue, "myofiber_poly2nb", "area", 
-                annotGeometryName = "myofiber_simplified",
-                 annotGraphName = "myofiber_poly2nb",
-                divergent = TRUE, diverge_center = 0)
+plotLocalResult(sfe_tissue, "myofiber_poly2nb", "area",
+  annotGeometryName = "myofiber_simplified",
+  annotGraphName = "myofiber_poly2nb",
+  divergent = TRUE, diverge_center = 0
+)
 ```
 
 As an alternative, we also base the neighbourhood matrix on the 5 nearest neighbours.
 
 ```{r}
-sfe_tissue <- annotGeometryUnivariate(sfe_tissue, "localmoran", "area", 
-                                      annotGeometryName = "myofiber_simplified",
-                                      annotGraphName = "knn5",
-                                      include_self = FALSE, zero.policy = TRUE,
-                                      name = "knn5")
+sfe_tissue <- annotGeometryUnivariate(sfe_tissue, "localmoran", "area",
+  annotGeometryName = "myofiber_simplified",
+  annotGraphName = "knn5",
+  include_self = FALSE, zero.policy = TRUE,
+  name = "knn5"
+)
 
 plotLocalResult(sfe_tissue, "knn5", "area",
-                annotGeometryName = "myofiber_simplified",
-                annotGraphName = "knn5",
-                divergent = TRUE, diverge_center = 0)
+  annotGeometryName = "myofiber_simplified",
+  annotGraphName = "knn5",
+  divergent = TRUE, diverge_center = 0
+)
 ```
 
 What do you notice? What happens if we set the nearest neighbourhood graph to 10 nearest neighbours?
 
 # Summary and Considerations
-- Lattice data refers to spatial data collected at fixed locations arranged in regular or irregular grids, contrasting with stochastic point pattern analysis.
-- Regular lattices have uniform, evenly spaced spots, while irregular lattices have variable sizes and shapes with non-uniform spacing.
-- The spatial weight matrix models spatial relationships between lattice units. Different methods exist to define the spatial weight matrix.
-- Global spatial autocorrelation measures, like Moran's I, summarize spatial correlation over the entire field, while local measures identify local clusters of similarity or dissimilarity.
+
+-   Lattice data refers to spatial data collected at fixed locations arranged in regular or irregular grids, contrasting with stochastic point pattern analysis.
+-   Regular lattices have uniform, evenly spaced spots, while irregular lattices have variable sizes and shapes with non-uniform spacing.
+-   The spatial weight matrix models spatial relationships between lattice units. Different methods exist to define the spatial weight matrix.
+-   Global spatial autocorrelation measures, like Moran's I, summarize spatial correlation over the entire field, while local measures identify local clusters of similarity or dissimilarity.
 
 # References
 
