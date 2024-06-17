@@ -1,15 +1,17 @@
 ---
-title: "Lattice Data Analysis"
+title: "SIB Days 2024 PASTA Workshop: Lattice Data Analysis Vignette"
 author: "Samuel Gunz, Martin Emons, Mark D. Robinson"
 format: html
 editor: visual
+editor_options: 
+  chunk_output_type: console
 ---
 
 # Introduction
 
 In contrast to point pattern based methods, we can view the location of cells or spots as a fixed lattice and measure the corresponding marker expression at each location. HTS-based spatial transcriptomic technologies often produce data on a regular lattice (i.e., approximately evenly spaced spots or beads of uniform size and shape), whereas imaging-based technologies yield irregular lattice structures (i.e., with variable cell sizes and shapes, and non-uniform spacing).
 
-For this representation of the cells we will rely on the `r BiocStyle::Biocpkg('SpatialFeatureExperiment')` package. For preprocessing of the dataset we refer the reader to the vignette of the `r BiocStyle::Biocpkg('Voyager')` package [@mosesVoyagerExploratorySinglecell2023]. The `Voyager` package also provides wrapper functions around the package  `r BiocStyle::CRANpkg('spdep')` [@pebesmaSpatialDataScience2023] that work directly on the `SpatialFeatureExperiment` object. The package `spdep` is designed for the analysis of spatial data with lattice structure.
+For this representation of the cells, we will rely on the `r BiocStyle::Biocpkg('SpatialFeatureExperiment')` package (see below for more details). For preprocessing of the dataset, we refer the reader to the vignette of the `r BiocStyle::Biocpkg('Voyager')` package [@mosesVoyagerExploratorySinglecell2023]. The `Voyager` package also provides wrapper functions around the package `r BiocStyle::CRANpkg('spdep')` [@pebesmaSpatialDataScience2023] that work directly on the `SpatialFeatureExperiment` object. The package `spdep` is designed for the analysis of spatial data with lattice structure.
 
 ## Dependencies
 
@@ -32,7 +34,7 @@ sfe_tissue <- sfe_tissue[rowSums(counts(sfe_tissue)) > 0,]
 sfe_tissue <- scater::logNormCounts(sfe_tissue)
 ```
 
-The `SpatialFeatureExperiment` [@mosesVoyagerExploratorySinglecell2023] objects is an extension of the `r BiocStyle::Biocpkg('SpatialExperiment')` object [@righelliSpatialExperimentInfrastructureSpatiallyresolved2022]. It additionally contains geometric annotations which are encoded as simple features of the `sf` library [@pebesmaSpatialDataScience2023].
+`SpatialFeatureExperiment` [@mosesVoyagerExploratorySinglecell2023] objects are an extension of the `r BiocStyle::Biocpkg('SpatialExperiment')` object [@righelliSpatialExperimentInfrastructureSpatiallyresolved2022]. It additionally contains geometric annotations that are encoded as simple features of the `sf` library [@pebesmaSpatialDataScience2023].
 
 ```{r}
 sfe_tissue
@@ -56,7 +58,7 @@ plotSpatialFeature(sfe_tissue,
                    colGeometryName = "spotPoly")
 ```
 
-As can be seen here, the Visium dataset is a regular lattice. The color shows the number of counts detected in each Visium spot. In contrast, the outlines of individual cells after segmentaion could be seen as an irregular lattice.
+As can be seen here, the Visium dataset is a regular lattice. The color shows the number of counts detected in each Visium spot. In contrast, the outlines of individual cells after segmentaion (e.g., from a higher resolution spatial omics assay) could be seen as an irregular lattice.
 
 ```{r}
 p <- plotSpatialFeature(sfe_tissue,
@@ -75,9 +77,9 @@ p | q
 
 ## Spatial weight matrix
 
-In lattice data analysis a key concept is the *spatial weight matrix*, which models the spatial relationships between units in the lattice (i.e., spots or cells). Various methods exist for constructing this matrix, such as contiguity-based (direct neighbors), graph-based, or distance-based methods. [@getisSpatialWeightsMatrices2009; @zuurAnalysingEcologicalData2007; @pebesmaSpatialDataScience2023]. The documentation of the package `spdep` gives an [overview of the different methods](https://r-spatial.github.io/spdep/articles/nb.html).
+In lattice data analysis, a key concept is the *spatial weight matrix*, which models the spatial relationships between units in the lattice (i.e., spots or cells). Various methods exist for constructing this matrix, such as contiguity-based (direct neighbors), graph-based, or distance-based methods. [@getisSpatialWeightsMatrices2009; @zuurAnalysingEcologicalData2007; @pebesmaSpatialDataScience2023]. The documentation of the package `spdep` gives an [overview of the different methods](https://r-spatial.github.io/spdep/articles/nb.html).
 
-For Visium, the most straightforward way is to take the next neighbours of each spot. This is done using the function `findVisiumGraph`.
+For Visium, the most straightforward way is to take the direct neighbours of each spot. This is done using the function `findVisiumGraph`.
 
 ```{r}
 colGraph(sfe_tissue, "visium") <- findVisiumGraph(sfe_tissue)
@@ -90,17 +92,16 @@ plotColGraph(sfe_tissue,
     theme_void()
 ```
 
-In an irregular lattice the task of finding a spatial neighbourhood matrix is more complex, as different options exist. One option is to base the neighbourhood graph on neighbours that are in direct contact with each other. The method `poly2nb` creates a neihbourhood matrix with direct neighbours.
+In an irregular lattice, the task of finding a spatial neighbourhood matrix is more complex, as different options exist. One option is to base the neighbourhood graph on neighbours that are in direct contact with each other, as implemented in the `poly2nb` method.
 
 ```{r}
 annotGraph(sfe_tissue, "myofiber_poly2nb") <- 
   findSpatialNeighbors(sfe_tissue,
                        type = "myofiber_simplified",
                        MARGIN = 3,
-                       method = "poly2nb", # wraps the spdep function with the same name
+                       method = "poly2nb", # wraps spdep function with same name
                        zero.policy = TRUE)
 ```
-
 
 ```{r}
 plotAnnotGraph(sfe_tissue,
@@ -109,7 +110,7 @@ plotAnnotGraph(sfe_tissue,
   theme_void()
 ```
 
-Alternatively, we could take the five nearest neighbours of each cell. The graph looks quite distinct.
+Alternatively, we could take the five nearest neighbours of each cell, which gives a quite distinct graph.
 
 ```{r}
 annotGraph(sfe_tissue, "knn5") <- 
@@ -127,6 +128,7 @@ plotAnnotGraph(sfe_tissue,
                annotGeometryName = "myofiber_simplified") + 
   theme_void()
 ```
+
 <!-- In the case of Visium data, we don't have cell level gene expression information and therefore continue with the analysis using the spatial analysis of the regularly spaced spots. -->
 
 # Spatial autocorrelation
@@ -135,7 +137,7 @@ Spatial autocorrelation measures the association between spatial units while rec
 
 # Global Measures
 
-Global methods give us an overview over the entire field of view and summarize the spatial autocorrelation metric to a single value. The metrics are a function of the weight matrix and the variables of interest. The variables of interest can be gene expression, intensity of a marker or the area of the cell. The global measures can be seen as a weighted average of the local metric, that will be explained below.
+Global methods give us an overview over the entire field-of-view and summarize the spatial autocorrelation metric to a single value. The metrics are a function of the weight matrix and the variables of interest. The variables of interest can be gene expression, intensity of a marker or the area of the cell. The global measures can be seen as a weighted average of the local metric, as explained below.
 
 In general, a global spatial autocorrelation measure has the form of a double sum over all locations $i,j$
 
@@ -163,15 +165,18 @@ calculateUnivariate(t(colData(sfe_tissue)[,c("nCounts", "nGenes")]),
                     type = "moran",
                     listw = colGraph(sfe_tissue, "visium"))
 ```
+
 We can further use permutation testing to get a significance of our estimates.
 
 ```{r}
 sfe_tissue <- colDataUnivariate(sfe_tissue, features = c("nCounts", "nGenes"), 
-                                colGraphName = "visium", nsim = 1000, type = "moran.mc")
-
-plotMoranMC(sfe_tissue, c("nCounts", "nGenes"))
+                                colGraphName = "visium", nsim = 1000, 
+                                type = "moran.mc")
+plotMoranMC(sfe_tissue, c("nCounts", "nGenes"),
+            linewidth = 2)
 ```
-Here we can see the Moran's I values for the number of counts and genes that were identified in the Visium dataset and a permutation based null distribution. As we can see, the Moran's I values both indicates positive spatial autocorrelation and is highly significant. This means that regions with similar count and number of measured gene values tend to cluster together. This is an interesting finding and was observed in other spatial transcriptomic datasets, see [@bhuvaLibrarySizeConfounds2024].
+
+Here we can see the Moran's I values for the number of counts and genes that were identified in the Visium dataset and a permutation-based null distribution. As we can see, the Moran's I values both indicates positive spatial autocorrelation and is highly significant. This means that regions with similar count and number of measured gene values tend to cluster together. This is an interesting finding and was observed in other spatial transcriptomic datasets, see [@bhuvaLibrarySizeConfounds2024].
 
 # Local Measures for Univariate Data
 
@@ -186,8 +191,10 @@ $$I_i = \frac{x_i - \bar{x}}{\sum_{k=1}^n(x_k-\bar{x})^2/(n-1)} \sum_{j=1}^n w_{
 where the index $i$ refers to the location for which the measure is calculated. The interpretation is analogous to the global Moran's I where a value of $I_i$ higher than $\mathbb{E}(I) = -1/(n-1)$ indicates spatial auto-correlation; smaller values indicate negative auto-correlation. It is important to note that, as for the global counterpart, the value of local Moran's I could be a result from both the high or low end of the values. Here will will caclulate the local Moran's I value for the measurment of muscle fiber marker gene Myh2:
 
 ```{r}
-sfe_tissue <- runUnivariate(sfe_tissue, type = "localmoran", features = "Myh2",
-                            colGraphName = "visium", swap_rownames = "symbol")
+sfe_tissue <- runUnivariate(sfe_tissue, type = "localmoran", 
+                            features = "Myh2",
+                            colGraphName = "visium", 
+                            swap_rownames = "symbol")
 
 # TODO: change colors and color legend
 
@@ -206,7 +213,7 @@ plotLocalResult(sfe_tissue, "localmoran", features = c("Myh2"), "-log10p_adj",
                 divergent = TRUE, diverge_center = -log10(0.05))
 ```
 
-In the local version of Moran's I the interpretation is the same as the global version). When interpreting local autocorrelation measures, it is important to consider both the effect size estimates and the significance level. Since the significance level is calculated for each spot separately, it is recommended to adjust for multiple testing. By default `runUnivariate` uses the Benjamini & Hochberg method. The local Moran's I statistics reveal locations in the tissue that have similar values to their neighbours (e.g., the upper part of the tissue). 
+In the local version of Moran's I, the interpretation is the same as the global version. When interpreting local autocorrelation measures, it is important to consider both the effect size estimates and the significance level. Since the significance level is calculated for each spot separately, it is recommended to adjust for multiple testing. By default, `runUnivariate` uses the Benjamini & Hochberg correction. The local Moran's I statistics reveal locations in the tissue that have similar values to their neighbours (e.g., the upper part of the tissue).
 
 Your turn: try to recalculate the local Moran's I with gene `Myh1`. What do you notice?
 
@@ -238,7 +245,7 @@ plotLocalResult(sfe_tissue, "localmoran", features = c("Myh1"), "-log10p_adj",
 
 Let's compare the impact of different neighbourhood matrices on local autocorrelation analysis. As it does not really make sense to do this with gene expression information, we calculate it with the area of the segmented cells. This could for instance be done when looking at local cell densities in a tissue.
 
-First, based on the neighbourhood matrix based on contigous neighbours.
+First, we base the neighbourhood matrix on contiguous neighbours.
 
 ```{r}
 sfe_tissue <- annotGeometryUnivariate(sfe_tissue, "localmoran", "area", 
@@ -254,7 +261,7 @@ plotLocalResult(sfe_tissue, "myofiber_poly2nb", "area",
                 divergent = TRUE, diverge_center = 0)
 ```
 
-Second, based on the neighbourhood matrix based on the 5 nearest neighbours.
+As an alternative, we also base the neighbourhood matrix on the 5 nearest neighbours.
 
 ```{r}
 sfe_tissue <- annotGeometryUnivariate(sfe_tissue, "localmoran", "area", 
@@ -275,10 +282,6 @@ What do you notice? What happens if we set the nearest neighbourhood graph to 10
 
 This tutorial is partially based on the following `Voyager` vignette: https://pachterlab.github.io/voyager/articles/vig2_visium.html
 
-
 ```{r}
 sessionInfo()
 ```
-
-
-
