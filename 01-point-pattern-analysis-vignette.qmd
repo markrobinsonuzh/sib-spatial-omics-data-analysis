@@ -360,7 +360,7 @@ res <- calcMetric("Lcross", pp_ls, by = zstack_list,
                   continuous = FALSE)
 
 q <- ggplot(res, aes(r, iso, colour = stack)) +
-  geom_line() +
+  geom_line(linewidth = 2) +
   geom_line(aes(x = r, y = theo), linetype = "dashed", color = "black")
 ```
 
