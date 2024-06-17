@@ -5,6 +5,7 @@ format: html
 editor: visual
 editor_options: 
   chunk_output_type: console
+bibliography: misc/PASTA.bib
 ---
 
 ## Introduction
@@ -28,9 +29,29 @@ On this central object, various `spatstat` metrics can be calculated.
 Often, the starting point in spatial omics data analysis is a `SpatialExperiment` (or similar) object. This is a central data structure in the `BioConductor` framework to store spatial omics data.
 
 ```{r}
+#| label: load packages
+
+suppressPackageStartupMessages({
+  library(SpatialExperiment)
+  library(spatstat.geom)
+  library(spatstat.explore)
+  library(dplyr)
+  library(ggplot2)
+  library(patchwork)
+  library(reshape2)
+  library(stringr)
+  library(tidyr)
+  library(magrittr)
+})
+```
+
+```{r, message=FALSE, warning=FALSE}
 #| label: load-data
+# load the data from ExperimentHub
+source("load_data.R")
 # source some helper functions
 source("utils.R")
+theme_set(theme_light())
 # load the SpatialExperiment object
 spe <- readRDS("data/spe.rds")
 spe
@@ -44,12 +65,6 @@ Next, we want to extract three slices of this `SpatialExperiment` object and con
 # define the Z-stacks that you want to compare
 zstack_list <- list("-0.09", "0.01", "0.21")
 # small helper function to extract the z-slices and convert them to `ppp` objects
-selectZstacks <- function(zstack, spe) {
-  sub <- spe[, spe$sample_id == zstack]
-  pp <- .ppp(sub, marks = "cluster_id")
-  return(pp)
-}
-# [MR compact alternative]
 selectZstacks <- function(zstack, spe) {
   spe[, spe$sample_id == zstack] |> 
     .ppp(marks = "cluster_id")
@@ -70,7 +85,6 @@ pp_df <- pp_ls$`-0.09` %>% as.data.frame
 # plot with ggplot
 ggplot(pp_df, aes(x, y, colour = marks)) +
   geom_point(size = 1) +
-  theme_light() +
   coord_equal()
 ```
 
@@ -145,7 +159,7 @@ gex <- assay(sub)[genes, ] %>%
   as.matrix() %>%
   data.frame() %>%
   set_rownames(NULL)
-# gene expression to marks [ME: is it really expression?]
+# gene expression to marks
 marks(pp_sub) <- gex
 ```
 
@@ -160,7 +174,6 @@ pp_df <- pp_sub %>%
 ggplot(pp_df, aes(x, y, colour = log(value + 1))) +
   geom_point(size = 0.5) +
   facet_wrap(~name) +
-  theme_light() +
   coord_equal() +
   scale_color_continuous(type = "viridis")
 ```
@@ -179,16 +192,11 @@ pp_df <- lapply(zstack_list, function(x) {
   return(df)
 }) %>% bind_rows()
 
-pp_df <- lapply(zstack_list, function(x) {
-  pp_ls[[x]] |> as.data.frame |> mutate(stack = x)
-}) %>% bind_rows()
-
 # select OD Mature cells
 pp_df_odmature <- pp_df[pp_df$marks == "OD Mature", ]
 
 ggplot(pp_df_odmature, aes(x, y, colour = marks)) +
   geom_point(size = 0.5) +
-  theme_light() +
   facet_wrap(~stack, scales = "free") +
   theme(aspect.ratio = 1)
 ```
@@ -208,7 +216,7 @@ pp_df <- lapply(zstack_list, function(x) {
     as.matrix() %>%
     data.frame() %>%
     set_rownames(NULL)
-  # gene expression to marks [ME: is it really expression?]
+  # gene expression to marks
   marks(pp_ls[[x]]) <- gex
   df <- pp_ls[[x]] %>% as.data.frame()
   df$stack <- x
@@ -217,7 +225,6 @@ pp_df <- lapply(zstack_list, function(x) {
 
 ggplot(pp_df, aes(x, y, colour = log(Esr1 + 1))) +
   geom_point(size = 0.5) +
-  theme_light() +
   facet_wrap(~stack, scales = "free") +
   theme(aspect.ratio = 1) +
   scale_color_continuous(type = "viridis")
@@ -241,7 +248,7 @@ In the formula above we note a few things:
 
 -   The function is normalised by the number of points $n$ and the window size $|W|$
 
--   the term $e_{ij}(r)$ is an edge correction - see the section on `border corrections` further down in the vignette.
+-   the term $e_{ij}(r)$ is an edge correction - see the section on `border corrections` further down in the vignette [@baddeleySpatialPointPatterns2015, pp. 204].
 
 Ripley's $K$ function can be variance stabilised, which is referred to as Besag's $L$ [@caneteSpicyRSpatialAnalysis2022]. The idea behind variance stabilisation is to "uncouple" the relationship between mean and variance. By taking the square root of the function in question, the variance is nearly constant across the function [@bartlettUseTransformations1947].
 
@@ -250,34 +257,16 @@ L(r) = \sqrt{\frac{K(r)}{\pi}}
 $$
 
 ```{r, message = FALSE, warning=FALSE, fig.height=5, fig.width=10, results='hide'}
-calcMetric <- function(fun, pp_ls, by, celltype, continuous = FALSE) {
-  res_df <- lapply(by, function(x) {
-    if (continuous) {
-      pp_sub <- subset(pp_ls[[x]], select = celltype)
-    } else {
-      pp_sub <- subset(pp_ls[[x]], 
-                       marks %in% celltype, drop = TRUE)
-    }
-
-    res <- do.call(fun, args = list(X = pp_sub))
-    res$stack <- x
-    return(res)
-  }) %>% bind_rows()
-  return(res_df)
-}
-
 res1 <- calcMetric("Kest", pp_ls, zstack_list, "OD Mature")
 
 p <- ggplot(res1, aes(r, iso, colour = stack)) +
   geom_line(linewidth = 2) +
-  theme_light() +
   geom_line(aes(x = r, y = theo), linetype = "dashed", color = "black")
 
 res2 <- calcMetric("Lest", pp_ls, zstack_list, "OD Mature")
 
 q <- ggplot(res2, aes(r, iso, colour = stack)) +
   geom_line(linewidth = 2) +
-  theme_light() +
   geom_line(aes(x = r, y = theo), linetype = "dashed", color = "black")
 ```
 
@@ -287,7 +276,17 @@ p | q
 
 Your turn: Try to compare the arrangement of `Ependymal` cells across these three sections. You can choose any function you might find in the documentation of `spatstat.explore`.
 
-A similar analysis can be performed for continuous marks. As an exercise, try to calculated a mark weighted correlation function `markcorr`. You get more information on this function by typing `?markcorr`
+```{r, eval=FALSE}
+res <- calcMetric(...)
+``` 
+
+A similar analysis can be performed for continuous marks. As an exercise, try to calculated a mark weighted correlation function `markcorr`. You get more information on this function by typing `?markcorr`. The markcorrelation function is defined as: 
+
+$$
+k_f(r) =  \frac{\mathbb{E}[f(m(u),m(v))|u,v \in X]}{\mathbb{E}[f(M,M')]}
+$$
+
+where the numerator is the conditional expectation of the marks at location $u,v$ separated by a radius $r$ and $f$ can be any function linking the two marks. The denominator is the expectation of two random marks $M,M'$ [@baddeleySpatialPointPatterns2015, pp. 603].
 
 ```{r}
 genes <- c("Slc18a2", "Esr1", "Pgr")
@@ -303,7 +302,7 @@ pp <- lapply(zstack_list, function(x) {
     as.matrix() %>%
     data.frame() %>%
     set_rownames(NULL)
-  # gene expression to marks [ME: is it really expression?]
+  # gene expression to marks
   marks(pp) <- gex
   return(pp)
 }) |> setNames(zstack_list)
@@ -313,7 +312,6 @@ res <- calcMetric("markcorr", pp, zstack_list,
                   "Esr1", continuous = TRUE)
 p <- ggplot(res, aes(r, iso, colour = stack)) +
   geom_line(linewidth = 2) +
-  theme_light() +
   geom_line(aes(x = r, y = theo), 
             linetype = "dashed", color = "black")
 
@@ -339,11 +337,10 @@ get_sel <- dfm %>%
 dfm <- dfm %>% left_join(get_sel)
 
 p <- ggplot(dfm, aes(x = r, y = value, group = variable, colour = sel)) +
-  geom_line() +
+  geom_line(linewidth = 2) +
   scale_color_continuous(type = "viridis") +
   geom_vline(xintercept = 200) +
   theme(legend.position = "none") +
-  theme_light() +
   ggtitle("LISA curves of slice 0.01")
 ```
 
@@ -355,17 +352,15 @@ These curves could be analysed using tools from functional data analysis such as
 
 ### Cross Mark Comparison
 
-The same analysis as above can be performed between two celltypes. The corresponding functions are called cross functions. As an exercise, try to implement (similar to the analysis above) a cross comparison between two cell types of interest. With the provided functions this is possible, just give a function you like as input and a vector with two cell types you wish to compare. You can look at functions in the documentation of `spatstat.explore`
+The same analysis as above can be performed between two celltypes. The corresponding functions are called cross functions. As an exercise, try to implement (similar to the analysis above) a cross comparison between two cell types of interest. With the provided functions this is possible, just give a function you like as input and a vector with two cell types you wish to compare. You can look at functions in the documentation of `spatstat.explore`. We provide an example below:
 
 ```{r, message = FALSE, warning=FALSE, fig.height=5, fig.width=10, results='hide'}
-# to be deleted from the handed out version
 res <- calcMetric("Lcross", pp_ls, by = zstack_list, 
-                  celltype = c("OD Mature", "Microglia"), 
+                  mark = c("OD Mature", "Microglia"), 
                   continuous = FALSE)
 
 q <- ggplot(res, aes(r, iso, colour = stack)) +
   geom_line() +
-  theme_light() +
   geom_line(aes(x = r, y = theo), linetype = "dashed", color = "black")
 ```
 
@@ -374,6 +369,10 @@ q
 ```
 
 Your turn: try to compare the colocalisation of `OD Mature` and `Ependymal`cells. Again, the documentation of `spatstat.explore` will help you to find good cross functions.
+
+```{r, eval = FALSE}
+res <- calcMetric(...)
+```
 
 ### Edge effects and their corrections for spatial metrics
 

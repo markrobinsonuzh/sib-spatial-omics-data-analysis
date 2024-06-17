@@ -16,6 +16,15 @@ suppressPackageStartupMessages({
   library(magrittr)
 })
 
+#' Convert SpatialExperiment object to ppp object
+#'
+#' @param spe a spatial experiment objects
+#' @param marks the marks to attribute
+#'
+#' @return a point pattern object
+#' @export
+#'
+#' @examples
 .ppp <- \(spe, marks = NULL) {
   xy <- spatialCoords(spe)
   w <- owin(range(xy[, 1]), range(xy[, 2]))
@@ -36,6 +45,15 @@ suppressPackageStartupMessages({
 }
 
 
+#' Compute the relative risk of a point pattern
+#'
+#' @param pp a point pattern to compute
+#' @param alpha significance level alpha
+#'
+#' @return a list with the relative risk results
+#' @export
+#'
+#' @examples
 pValuesHotspotMarks <- function(pp, alpha = 0.05){
   # Code source: https://idblr.rbind.io/post/pvalues-spatial-segregation/
   
@@ -57,6 +75,15 @@ pValuesHotspotMarks <- function(pp, alpha = 0.05){
   return(f1)
 }
 
+#' Compute p-values of the hotspots
+#'
+#' @param pp a point pattern to compute
+#' @param alpha significance level alpha
+#'
+#' @return a density estimate
+#' @export
+#'
+#' @examples
 pValuesHotspot <- function(pp, alpha = 0.05){
   # Code source: https://idblr.rbind.io/post/pvalues-spatial-segregation/
   # density estimate for all marks
@@ -72,4 +99,33 @@ pValuesHotspot <- function(pp, alpha = 0.05){
                    levels = c("lower", "none", "higher"))
   
   return(f1)
+}
+
+#' Calculate a spatstat metric
+#'
+#' @param fun which function to calculate
+#' @param pp_ls a list of point pattern objects
+#' @param by which objects to compare, e.g. a list of the z-stacks
+#' @param mark which mark (e.g. celltype(s)) to compute the metric on
+#' @param continuous whether or not the mark is continous
+#'
+#' @return a dataframe with the radius and the results at which they were
+#'         calculated
+#' @export
+#'
+#' @examples
+calcMetric <- function(fun, pp_ls, by, mark, continuous = FALSE) {
+  res_df <- lapply(by, function(x) {
+    if (continuous) {
+      pp_sub <- subset(pp_ls[[x]], select = mark)
+    } else {
+      pp_sub <- subset(pp_ls[[x]], 
+                       marks %in% mark, drop = TRUE)
+    }
+    
+    res <- do.call(fun, args = list(X = pp_sub))
+    res$stack <- x
+    return(res)
+  }) %>% bind_rows()
+  return(res_df)
 }
