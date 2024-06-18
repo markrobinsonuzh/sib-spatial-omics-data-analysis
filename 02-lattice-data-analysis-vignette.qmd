@@ -54,7 +54,7 @@ sfe_tissue <- sfe_tissue[rowSums(counts(sfe_tissue)) > 0, ]
 sfe_tissue <- scater::logNormCounts(sfe_tissue)
 ```
 
-`SpatialFeatureExperiment` [@mosesVoyagerExploratorySinglecell2023] objects are an extension of the `r BiocStyle::Biocpkg('SpatialExperiment')` object [@righelliSpatialExperimentInfrastructureSpatiallyresolved2022]. It additionally contains geometric annotations that are encoded as simple features of the `sf` library [@pebesmaSpatialDataScience2023].
+`SpatialFeatureExperiment` [@mosesVoyagerExploratorySinglecell2023] objects are an extension of the `r BiocStyle::Biocpkg('SpatialExperiment')` object [@righelliSpatialExperimentInfrastructureSpatiallyresolved2022]. It additionally contains geometric annotations that are encoded as simple features of the `r BiocStyle::CRANpkg('sf')` library [@pebesmaSpatialDataScience2023].
 
 ```{r}
 sfe_tissue
@@ -367,10 +367,8 @@ What do you notice? What happens if we set the nearest neighbourhood graph to 10
 -   The spatial weight matrix models spatial relationships between lattice units. Different methods exist to define the spatial weight matrix.
 -   Global spatial autocorrelation measures, like Moran's I, summarize spatial correlation over the entire field, while local measures identify local clusters of similarity or dissimilarity.
 
-# References
-
-This tutorial is partially based on the following `Voyager` [vignette](https://pachterlab.github.io/voyager/articles/vig2_visium.html).
-
 ```{r}
 sessionInfo()
 ```
+
+This tutorial is partially based on the following `Voyager` [vignette](https://pachterlab.github.io/voyager/articles/vig2_visium.html).
