@@ -1,7 +1,10 @@
 ---
 title: "SIB Days 2024 PASTA Workshop: Point Pattern Analysis Vignette"
 author: "Martin Emons, Samuel Gunz, Mark D. Robinson"
-format: html
+format:
+    html:
+      toc: true
+      self-contained: true
 editor: visual
 editor_options: 
   chunk_output_type: console
@@ -48,9 +51,9 @@ suppressPackageStartupMessages({
 ```{r, message=FALSE, warning=FALSE}
 #| label: load-data
 # load the data from ExperimentHub
-source("load_data.R")
+source("code/load_data.R")
 # source some helper functions
-source("utils.R")
+source("code/utils.R")
 theme_set(theme_light())
 # load the SpatialExperiment object
 spe <- readRDS("data/spe.rds")
@@ -278,9 +281,9 @@ Your turn: Try to compare the arrangement of `Ependymal` cells across these thre
 
 ```{r, eval=FALSE}
 res <- calcMetric(...)
-``` 
+```
 
-A similar analysis can be performed for continuous marks. As an exercise, try to calculated a mark weighted correlation function `markcorr`. You get more information on this function by typing `?markcorr`. The markcorrelation function is defined as: 
+A similar analysis can be performed for continuous marks. As an exercise, try to calculated a mark weighted correlation function `markcorr`. You get more information on this function by typing `?markcorr`. The markcorrelation function is defined as:
 
 $$
 k_f(r) =  \frac{\mathbb{E}[f(m(u),m(v))|u,v \in X]}{\mathbb{E}[f(M,M')]}
@@ -382,25 +385,25 @@ There are many corrections for edge effects that are briefly listed here [@badde
 
 Border correction:
 
-In border correction the summation of data points is restricted to $x_i$ for which $b(x_i,r)$ is completely in the window $W$.
+-   In border correction the summation of data points is restricted to $x_i$ for which $b(x_i,r)$ is completely in the window $W$.
 
 Isotropic correction:
 
-We can regard edge effect as a sampling bias. Larger distances (e.g. close to the edges) are less likely to be observed. This can be corrected for.
+-   We can regard edge effect as a sampling bias. Larger distances (e.g. close to the edges) are less likely to be observed. This can be corrected for.
 
 Translation correction:
 
-A stationary point process $X$ is invariant to translations. So the entire point process can be shifted by a vector $s$ to be at the position $X+s$.
+-   A stationary point process $X$ is invariant to translations. So the entire point process can be shifted by a vector $s$ to be at the position $X+s$.
 
 ## Summary and Considerations
 
 -   Point patterns are realisations of a point process. In the analysis we make inferences about the point process.
 
--   A point process assumes stochasticity. Therefore, HTS-based approaches are not suitable for point pattern analysis
+-   A point process assumes stochasticity. Therefore, HTS-based approaches are not suitable for point pattern analysis.
 
--   There are global metrics for the comparison within a celltype or between celltypes
+-   There are global metrics for the comparison within a celltype or between celltypes.
 
--   There are corresponding metrics for single cells and their interactions
+-   There are corresponding metrics for single cells and their interactions.
 
 -   Point pattern analysis allows for the analysis of continuous gene expression marks as well.
 
