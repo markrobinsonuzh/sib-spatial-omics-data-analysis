@@ -16,7 +16,7 @@ Planned timeline:
 | 12:00 - 12:30 | Comparison of approaches; discussion |
 
 
-In the point pattern and lattice analysis part, you will go through a quarto document that you find in `????`. You will need to have a number of packages installed to run the quarto documents. Please read the instructions for installation below.
+In the point pattern and lattice analysis part, you will go through the respective quarto documents (`.qmd`) that you find in this repo. You will need to have a number of packages installed to run the quarto documents. Please read the instructions for installation below.
 
 ## Necessary software / environment
 
@@ -36,7 +36,7 @@ BiocManager::install(pkgs)
 
 ### Docker
 
-In case there are problems installing the software, another option is to use an already-prepared [Docker](https://www.docker.com/) container. This would require you to install Docker on your computer; see [here](https://www.docker.com/products/docker-desktop/). For Apple M1 users: You need to enable the rosetta2 virtualization feature in docker desktop. To use the docker container, you can download the prepared image and run it as follows:
+In case there are problems installing the software, another option is to use an already-prepared [Docker](https://www.docker.com/) container. This would require you to install Docker on your computer; see [here](https://www.docker.com/products/docker-desktop/). For Apple M1/M2 users: You need to enable the rosetta2 virtualization feature in docker desktop. To use the docker container, you can download the prepared image and run it as follows:
 
 ```
 docker pull markrobinsonuzh/sibdays-pasta:14062024
