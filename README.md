@@ -20,7 +20,7 @@ In the point pattern and lattice analysis part, you will go through the respecti
 
 ## Necessary software / environment
 
-Please bring your personal laptop with an installation of `R`. The `R` version must be 4.2 or higher. Electrical outlets will be available in the room.
+Please bring your personal laptop with an installation of `R`. The `R` version must be 4.2 or higher and Bioconductor 3.17 or newer. Electrical outlets will be available in the room.
 
 To install all necessary packages please run the following commands in `R`.
 
@@ -30,7 +30,7 @@ pkgs <- c('SpatialExperiment', 'spatstat.geom', 'spatstat.explore',
 'SpatialFeatureExperiment', 'SFEData', 'spdep', 'sf', 'stringr', 'tidyr',
 'magrittr','scater')
 
-install.packages("BiocManager")
+if (!requireNamespace("BiocManager")) install.packages("BiocManager")
 BiocManager::install(pkgs)
 ```
 
