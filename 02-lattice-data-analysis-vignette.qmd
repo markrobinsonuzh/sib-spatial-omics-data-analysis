@@ -119,7 +119,7 @@ plotColGraph(sfe_tissue,
 ) + theme_void()
 ```
 
-In an irregular lattice, the task of finding a spatial neighbourhood matrix is more complex, as different options exist. One option is to base the neighbourhood graph on neighbours that are in direct contact with each other, as implemented in the `poly2nb` method.
+In an irregular lattice, the task of finding a spatial weight matrix is more complex, as different options exist. One option is to base the neighbourhood graph on neighbours that are in direct contact with each other (contiguous), as implemented in the `poly2nb` method.
 
 ```{r}
 annotGraph(sfe_tissue, "myofiber_poly2nb") <-
@@ -218,7 +218,7 @@ plotMoranMC(sfe_tissue, c("nCounts", "nGenes"),
 )
 ```
 
-Here we can see the Moran's I values for the number of counts and genes that were identified in the Visium dataset and a permutation-based null distribution. As we can see, the Moran's I values both indicates positive spatial autocorrelation and is highly significant. This means that regions with similar count and number of measured gene values tend to cluster together. This is an interesting finding and was observed in other spatial transcriptomic datasets, see [@bhuvaLibrarySizeConfounds2024].
+Here we can see the Moran's I values for the number of counts and genes that were identified in the Visium dataset and a permutation-based null distribution. As we can see, the Moran's I values both indicate positive spatial autocorrelation and are highly significant. This means that regions with similar count and number of measured gene values tend to cluster together. This is an interesting finding and was observed in other spatial transcriptomic datasets, see [@bhuvaLibrarySizeConfounds2024].
 
 ## Local Measures for Univariate Data
 
@@ -230,7 +230,7 @@ Local Moran's I provides a measure of spatial autocorrelation at each location, 
 
 $$I_i = \frac{x_i - \bar{x}}{\sum_{k=1}^n(x_k-\bar{x})^2/(n-1)} \sum_{j=1}^n w_{ij}(x_j - \bar{x})$$
 
-where the index $i$ refers to the location for which the measure is calculated. The interpretation is analogous to the global Moran's I where a value of $I_i$ higher than $\mathbb{E}(I) = -1/(n-1)$ indicates spatial auto-correlation; smaller values indicate negative auto-correlation. It is important to note that, as for the global counterpart, the value of local Moran's I could be a result from both the high or low end of the values. Here will will calculate the local Moran's I value for the measurement of muscle fiber marker gene *Myh2*:
+where the index $i$ refers to the location for which the measure is calculated. The interpretation is analogous to the global Moran's I where a value of $I_i$ higher than $\mathbb{E}(I) = -1/(n-1)$ indicates spatial auto-correlation; smaller values indicate negative auto-correlation. It is important to note that, as for the global counterpart, the value of local Moran's I could be a result from both the high or low end of the values. Here we will calculate the local Moran's I value for the measurement of muscle fiber marker gene *Myh2*:
 
 ```{r}
 sfe_tissue <- runUnivariate(sfe_tissue,
@@ -308,9 +308,9 @@ plotLocalResult(sfe_tissue, "localmoran",
 
 ### Advanced -- Bivariate Moran's I
 
-There exists also a bivariate version of Moran's I. The package `spatialDM` [@liSpatialDMRapidIdentification2023] uses an adapted version of bivariate Moran's I to identify ligand-receptor pairs.
+There exists a bivariate version of Moran's I as well. The package `spatialDM` [@liSpatialDMRapidIdentification2023] uses an adapted version of bivariate Moran's I to identify ligand-receptor pairs.
 
-For two continous observation the global bivariate Moran's I is defined as [@wartenbergMultivariateSpatialCorrelation1985 ; @bivandPackagesAnalyzingSpatial2022]
+For two continous observations the global bivariate Moran's I is defined as [@wartenbergMultivariateSpatialCorrelation1985 ; @bivandPackagesAnalyzingSpatial2022]
 
 $$I_B = \frac{\Sigma_i(\Sigma_j{w_{ij}b_j\times a_i})}{\Sigma_i{b_i^2}}$$
 
@@ -338,9 +338,9 @@ Please note that the result might overestimate the spatial autocorrelation of th
 
 ## Impact of neighbourhood on autocorrelation measures
 
-Let's compare the impact of different neighbourhood matrices on local autocorrelation analysis. In this Visium dataset we do not have gene expression information for each cell because of the resolution of the spots. We will instead calculate the autocorrelation measures on the area of the segmented cells. This could be heplful when looking at local cell densities in a tissue.
+Let's compare the impact of different spatial weight matrices on local autocorrelation analysis. In this Visium dataset we do not have gene expression information for each cell because of the resolution of the spots. We will instead calculate the autocorrelation measures on the area of the segmented cells. This could be helpful when looking at local cell densities in a tissue.
 
-First, we base the neighbourhood matrix on contiguous neighbours.
+First, we base the spatial weight matrix on contiguous neighbours.
 
 ```{r}
 sfe_tissue <- annotGeometryUnivariate(sfe_tissue, "localmoran", "area",
@@ -354,10 +354,11 @@ pPoly <- plotLocalResult(sfe_tissue, "myofiber_poly2nb", "area",
   annotGeometryName = "myofiber_simplified",
   annotGraphName = "myofiber_poly2nb",
   divergent = TRUE, diverge_center = 0
-) + labs(title = "Local Moran's I (li)\nContiguous Neighbours")
+) + labs(title = "Local Moran's I (li)\nContiguous Neighbours", 
+         fill = "li(area)")
 ```
 
-As an alternative, we also base the neighbourhood matrix on the 5 nearest neighbours.
+As an alternative, we also base the spatial weight matrix on the 5 nearest neighbours.
 
 ```{r}
 sfe_tissue <- annotGeometryUnivariate(sfe_tissue, "localmoran", "area",
@@ -371,7 +372,8 @@ pKnn5 <- plotLocalResult(sfe_tissue, "knn5", "area",
   annotGeometryName = "myofiber_simplified",
   annotGraphName = "knn5",
   divergent = TRUE, diverge_center = 0
-) + labs(title = "Local Moran's I (li)\n5 Nearest Neighbours (knn5)")
+) + labs(title = "Local Moran's I (li)\n5 Nearest Neighbours (knn5)", 
+         fill = "li(area)")
 ```
 
 ```{r}
