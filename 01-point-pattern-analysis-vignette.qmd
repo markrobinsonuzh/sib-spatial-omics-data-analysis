@@ -122,7 +122,7 @@ Correctly assigning windows is very important. The window should represent the s
 
 ### Marks
 
-The next concept that defines a point pattern is that marks can be associated with the points. The points can also have no marks, which we would call an unmarked point pattern
+The next concept that defines a point pattern is that marks can be associated with the points. The points can also have no mark, which we would call an unmarked point pattern
 
 ```{r}
 unmark(pp_sub) |> plot()
@@ -181,7 +181,7 @@ ggplot(pp_df, aes(x, y, colour = log(value + 1))) +
   scale_color_continuous(type = "viridis")
 ```
 
-We note that the distribution of expression of the genes `Pgr` and `Slc18a2` is very evenly distributed with some elevations in the middle of the structure. `Esr1` shows a half-circle like structure in expression. Note that the expression is here log transformed counts offset by one (to avoid problems with log of zero).
+We note that the expression of the genes `Pgr` and `Slc18a2` is very evenly distributed with some elevations in the middle of the structure. `Esr1` shows a half-circle like structure in expression. Note that the expression is here log transformed counts offset by one (to avoid problems with log of zero).
 
 #### Within Mark Comparison
 
@@ -285,7 +285,7 @@ Your turn: Try to compare the arrangement of `Ependymal` cells across these thre
 res <- calcMetric(...)
 ```
 
-A similar analysis can be performed for continuous marks. As an exercise, try to calculated a mark weighted correlation function `markcorr`. You get more information on this function by typing `?markcorr`. The markcorrelation function is defined as:
+A similar analysis can be performed for continuous marks. As an exercise, try to calculated a mark weighted correlation function `markcorr`. You get more information on this function by typing `?markcorr`. The mark weighted correlation function is defined as:
 
 $$
 k_f(r) =  \frac{\mathbb{E}[f(m(u),m(v))|u,v \in X]}{\mathbb{E}[f(M,M')]}
@@ -323,7 +323,7 @@ p <- ggplot(res, aes(r, iso, colour = stack)) +
 p
 ```
 
-We note that at very small radii the expression of the gene `Esr1` shows a high association with itself. Later on, the association is less pronounced than in the slices $-0.09$ and $0.01$. 
+We note that at very small radii the expression of the gene `Esr1` shows a high association with itself. Later on, the association is less pronounced than in the slices $-0.09$ and $0.01$.
 
 ##### Local Measures
 
@@ -359,7 +359,7 @@ These curves could be analysed using tools from functional data analysis such as
 
 ### Cross Mark Comparison
 
-The same analysis as above can be performed between two celltypes. The corresponding functions are called cross functions [@baddeleySpatialPointPatterns2015 pp. 594 ff.]. As an exercise, try to implement (similar to the analysis above) a cross comparison between two cell types of interest. With the provided functions this is possible, just give a function you like as input and a vector with two cell types you wish to compare. You can look at functions in the documentation of `r BiocStyle::CRANpkg('spatstat.explore')`. We provide an example below:
+The same analyses as above can be performed between two celltypes. The corresponding functions are called cross functions [@baddeleySpatialPointPatterns2015 pp. 594 ff.]. As an exercise, try to implement (similar to the analyses above) a cross comparison between two cell types of interest. With the provided functions this is possible, just give a function you like as input and a vector with two cell types you wish to compare. You can look at functions in the documentation of `r BiocStyle::CRANpkg('spatstat.explore')`. We provide an example below:
 
 ```{r, message = FALSE, warning=FALSE, fig.height=5, fig.width=10}
 # select OD Mature and Microglia cells
