@@ -1,5 +1,5 @@
 
-FROM bioconductor/bioconductor_docker:RELEASE_3_19
+FROM bioconductor/bioconductor_docker:RELEASE_3_20
 
 USER root
 

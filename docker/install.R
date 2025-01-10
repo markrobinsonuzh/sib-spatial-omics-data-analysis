@@ -3,3 +3,4 @@ pkgs <- c('SpatialExperiment', 'spatstat.geom', 'spatstat.explore',
           'SpatialFeatureExperiment', 'SFEData', 'spdep', 'sf', 
           'stringr', 'tidyr','magrittr','scater')
 BiocManager::install(pkgs)
+devtools::install_github("mjemons/spatialFDA")

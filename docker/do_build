@@ -1,1 +1,1 @@
-docker build -t markrobinsonuzh/sibdays-pasta:14062024 --no-cache --progress=plain . 2>&1 | tee build.log
+docker build -t markrobinsonuzh/sibspatialcourse-pasta:10012025 --no-cache --progress=plain . 2>&1 | tee build.log

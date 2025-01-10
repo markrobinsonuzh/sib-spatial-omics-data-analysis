@@ -1,1 +1,1 @@
-docker run -e PASSWORD=abc -p 8787:8787 markrobinsonuzh/sibdays-pasta:14062024
+docker run -e PASSWORD=abc -p 8787:8787 markrobinsonuzh/sibspatialcourse-pasta:10012025 
