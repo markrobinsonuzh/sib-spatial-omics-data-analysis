@@ -1,5 +1,5 @@
 ---
-title: "SIB Days 2024 PASTA Workshop: Lattice Data Analysis Vignette"
+title: "SIB Spatial Omics Data Analysis Course 2025: Lattice Data Analysis Vignette"
 author: "Samuel Gunz, Martin Emons, Mark D. Robinson"
 format:
     html:
@@ -164,8 +164,6 @@ As we can see below, the graphs look quite distinct. On the left side, in the co
 p1 + p2
 ```
 
-
-
 <!-- In the case of Visium data, we don't have cell level gene expression information and therefore continue with the analysis using the spatial analysis of the regularly spaced spots. -->
 
 # Spatial autocorrelation
@@ -274,7 +272,6 @@ Your turn: try to recalculate the local Moran's I with gene *Myh1*. What do you 
 
 sfe_tissue <- runUnivariate(...)
 ```
-
 
 ```{r}
 #| include: false

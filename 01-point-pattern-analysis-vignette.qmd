@@ -1,5 +1,5 @@
 ---
-title: "SIB Days 2024 PASTA Workshop: Point Pattern Analysis Vignette"
+title: "SIB Spatial Omics Data Analysis Course 2025: Point Pattern Analysis Vignette"
 author: "Martin Emons, Samuel Gunz, Mark D. Robinson"
 format:
     html:
